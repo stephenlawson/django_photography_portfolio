@@ -1,0 +1,350 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<nav class="breadcrumb-nav" aria-label="breadcrumb">
+    <div class="breadcrumb-container">
+        <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList" style="margin: 0; padding: 0; list-style: none; display: inline;">
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: inline;">
+                <a itemprop="item" href="{% url 'index' %}#portfolio" class="breadcrumb-link">
+                    <span itemprop="name">Home</span>
+                </a>
+                <meta itemprop="position" content="1" />
+                <span class="breadcrumb-separator">/</span>
+            </li>
+            {% if gallery.category.parent %}
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: inline;">
+                <a itemprop="item" href="{% url 'gallery_list' gallery.category.parent.name %}" class="breadcrumb-link">
+                    <span itemprop="name">{{ gallery.category.parent.get_name_display }}</span>
+                </a>
+                <meta itemprop="position" content="2" />
+                <span class="breadcrumb-separator">/</span>
+            </li>
+            {% endif %}
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: inline;">
+                <a itemprop="item" href="{% url 'gallery_list' gallery.category.name %}" class="breadcrumb-link">
+                    <span itemprop="name">{{ gallery.category.get_name_display }}</span>
+                </a>
+                <meta itemprop="position" content="3" />
+                <span class="breadcrumb-separator">/</span>
+            </li>
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: inline;">
+                <span itemprop="name" class="breadcrumb-current">{{ gallery.name }}</span>
+                <meta itemprop="position" content="4" />
+            </li>
+        </ol>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ImageGallery",
+        "name": "{{ gallery.name }}",
+        "description": "{{ gallery.gallery_text }}",
+        "datePublished": "{{ gallery.date|date:'c' }}",
+        "provider": {
+            "@type": "PhotographyBusiness",
+            "name": "Stephen Lawson Photography",
+            "image": "{% static 'photo_app/img/stephenlawsonphotographyfavicon.png' %}",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "1001 E. Byrd St.",
+                "addressLocality": "Richmond",
+                "addressRegion": "VA",
+                "postalCode": "23219",
+                "addressCountry": "US"
+            }
+        },
+        "image": [
+            {% for photo in photos|slice:":10" %}
+            {
+                "@type": "ImageObject",
+                "contentUrl": "{{ photo.image.url }}",
+                "thumbnailUrl": "{{ photo.thumbnail.url }}",
+                "name": "{{ photo.alt_text|default:gallery.name }}",
+                "width": "1200",
+                "height": "800"
+            }{% if not forloop.last %},{% endif %}
+            {% endfor %}
+        ]
+    }
+</script>
+
+<div class="gallery-container">
+    <h1>{{ gallery.name }}</h1>
+    <p>{{ gallery.gallery_text }}</p>
+    
+    {% if gallery.videos.all %}
+    <div class="video-hero-section">
+        {% for video in gallery.videos.all %}
+        <div class="inverted video-container">
+            <div class="video-wrapper">
+                <video id="main-video-{{ video.id }}" class="video-player">
+                    <source src="{{ video.video_file.url }}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+                <div class="video-controls">
+                    <div class="progress-bar">
+                        <div class="progress-filled"></div>
+                    </div>
+                    
+                    <div class="controls-main">
+                        <button class="video-button play-pause">
+                            <svg class="play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21"></polygon>
+                            </svg>
+                            <svg class="pause-icon hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="6" y="4" width="4" height="16"></rect>
+                                <rect x="14" y="4" width="4" height="16"></rect>
+                            </svg>
+                        </button>
+                        
+                        <div class="time-display">
+                            <span class="current-time">0:00</span>
+                            <span>/</span>
+                            <span class="duration">0:00</span>
+                        </div>
+                        
+                        <div class="volume-container">
+                            <button class="video-button volume-btn">
+                                <svg class="volume-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19"></polygon>
+                                    <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                                    <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                                </svg>
+                                <svg class="mute-icon hidden" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="11 5 6 9 2 9 2 15 6 15 11 19"></polygon>
+                                    <line x1="23" y1="9" x2="17" y2="15"></line>
+                                    <line x1="17" y1="9" x2="23" y2="15"></line>
+                                </svg>
+                            </button>
+                            <div class="volume-slider">
+                                <div class="volume-filled"></div>
+                            </div>
+                        </div>
+                        
+                        <button class="video-button fullscreen">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    
+    <div class="photo-grid">
+        {% for photo in photos %}
+        <div class="photo-item {{ photo.orientation }}" data-index="{{ forloop.counter0 }}">
+            <img loading="lazy"
+                 src="{{ photo.thumbnail.url }}" 
+                 alt="{{ photo.alt_text|default:'Richmond professional photography by Stephen Lawson' }}"
+                 data-full="{{ photo.image.url }}"
+                 class="gallery-image inverted">
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Photo Modal -->
+<div id="photoModal" class="modal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+        <div class="modal-controls">
+            <span class="close">&times;</span>
+        </div>
+        <button class="nav-button prev" title="Previous">&lt;</button>
+        <img class="modal-image inverted" src="" alt="Full size photo">
+        <button class="nav-button next" title="Next">&gt;</button>
+    </div>
+</div>
+
+<script>
+    // Handle videos
+    document.addEventListener('DOMContentLoaded', function() {
+        // Initialize each video player in the gallery
+        document.querySelectorAll('.video-container').forEach(container => {
+            const video = container.querySelector('.video-player');
+            const playPauseBtn = container.querySelector('.play-pause');
+            const playIcon = container.querySelector('.play-icon');
+            const pauseIcon = container.querySelector('.pause-icon');
+            const progressBar = container.querySelector('.progress-bar');
+            const progressFilled = container.querySelector('.progress-filled');
+            const currentTimeEl = container.querySelector('.current-time');
+            const durationEl = container.querySelector('.duration');
+            const volumeBtn = container.querySelector('.volume-btn');
+            const volumeIcon = container.querySelector('.volume-icon');
+            const muteIcon = container.querySelector('.mute-icon');
+            const volumeSlider = container.querySelector('.volume-slider');
+            const volumeFilled = container.querySelector('.volume-filled');
+            const fullscreenBtn = container.querySelector('.fullscreen');
+            const videoControls = container.querySelector('.video-controls');
+
+            // Play/Pause
+            function togglePlay() {
+                if (video.paused) {
+                    video.play();
+                    playIcon.classList.add('hidden');
+                    pauseIcon.classList.remove('hidden');
+                } else {
+                    video.pause();
+                    playIcon.classList.remove('hidden');
+                    pauseIcon.classList.add('hidden');
+                }
+            }
+
+            // Format time
+            function formatTime(seconds) {
+                const minutes = Math.floor(seconds / 60);
+                seconds = Math.floor(seconds % 60);
+                return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+
+            // Update progress bar
+            function updateProgress() {
+                const percent = (video.currentTime / video.duration) * 100;
+                progressFilled.style.width = `${percent}%`;
+                currentTimeEl.textContent = formatTime(video.currentTime);
+                durationEl.textContent = formatTime(video.duration);
+            }
+
+            // Scrub video
+            function scrub(e) {
+                const scrubTime = (e.offsetX / progressBar.offsetWidth) * video.duration;
+                video.currentTime = scrubTime;
+            }
+
+            // Volume control
+            function handleVolume(e) {
+                const volume = e.offsetX / volumeSlider.offsetWidth;
+                video.volume = Math.max(0, Math.min(1, volume));
+                volumeFilled.style.width = `${volume * 100}%`;
+            }
+
+            // Fullscreen
+            function toggleFullscreen() {
+                if (!document.fullscreenElement) {
+                    container.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            }
+
+            // Event listeners
+            playPauseBtn.addEventListener('click', togglePlay);
+            video.addEventListener('click', togglePlay);
+            video.addEventListener('timeupdate', updateProgress);
+            video.addEventListener('loadedmetadata', () => {
+                durationEl.textContent = formatTime(video.duration);
+            });
+
+            let mousedown = false;
+            progressBar.addEventListener('click', scrub);
+            progressBar.addEventListener('mousemove', (e) => mousedown && scrub(e));
+            progressBar.addEventListener('mousedown', () => mousedown = true);
+            progressBar.addEventListener('mouseup', () => mousedown = false);
+
+            volumeSlider.addEventListener('click', handleVolume);
+            volumeBtn.addEventListener('click', () => {
+                video.muted = !video.muted;
+                volumeFilled.style.width = video.muted ? '0%' : `${video.volume * 100}%`;
+                volumeIcon.classList.toggle('hidden');
+                muteIcon.classList.toggle('hidden');
+            });
+
+            fullscreenBtn.addEventListener('click', toggleFullscreen);
+
+            // Hide controls
+            let timeout;
+            container.addEventListener('mousemove', () => {
+                videoControls.style.opacity = '1';
+                clearTimeout(timeout);
+                if (!video.paused) {
+                    timeout = setTimeout(() => {
+                        videoControls.style.opacity = '0';
+                    }, 2000);
+                }
+            });
+        });
+
+        // Photo modal functionality
+        const modal = document.getElementById('photoModal');
+        const modalImg = modal.querySelector('.modal-image');
+        const closeBtn = modal.querySelector('.close');
+        const prevBtn = modal.querySelector('.prev');
+        const nextBtn = modal.querySelector('.next');
+        const modalOverlay = modal.querySelector('.modal-overlay');
+        const photoItems = document.querySelectorAll('.photo-item');
+        
+        let currentIndex = 0;
+        const photos = Array.from(photoItems).map(item => ({
+            thumbnail: item.querySelector('img').src,
+            fullSize: item.querySelector('img').dataset.full
+        }));
+    
+        // Photo modal navigation
+        photoItems.forEach((item, index) => {
+            item.addEventListener('click', () => {
+                currentIndex = index;
+                openModal(photos[currentIndex].fullSize);
+            });
+        });
+    
+        modalOverlay.addEventListener('click', closeModal);
+        closeBtn.addEventListener('click', closeModal);
+    
+        prevBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showPreviousPhoto();
+        });
+    
+        nextBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            showNextPhoto();
+        });
+    
+        document.addEventListener('keydown', (e) => {
+            if (!modal.style.display || modal.style.display === 'none') return;
+    
+            switch(e.key) {
+                case 'ArrowLeft':
+                    showPreviousPhoto();
+                    break;
+                case 'ArrowRight':
+                    showNextPhoto();
+                    break;
+                case 'Escape':
+                    closeModal();
+                    break;
+            }
+        });
+    
+        function openModal(imageUrl) {
+            modal.style.display = 'block';
+            modalImg.src = imageUrl;
+            document.body.style.overflow = 'hidden';
+        }
+    
+        function closeModal() {
+            modal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+    
+        function showPreviousPhoto() {
+            currentIndex = (currentIndex - 1 + photos.length) % photos.length;
+            modalImg.src = photos[currentIndex].fullSize;
+        }
+    
+        function showNextPhoto() {
+            currentIndex = (currentIndex + 1) % photos.length;
+            modalImg.src = photos[currentIndex].fullSize;
+        }
+    });
+</script>
+{% endblock %}

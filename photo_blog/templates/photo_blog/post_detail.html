@@ -1,0 +1,147 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+
+{% block head %}
+    <title>{{ photo_blog.title }} | Stephen Lawson Photography Blog</title>
+    <meta name="description" content="{{ photo_blog.sub_title }}">
+    
+    <!-- OpenGraph tags -->
+    <meta property="og:title" content="{{ photo_blog.title }}">
+    <meta property="og:description" content="{{ photo_blog.sub_title }}">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:image" content="{{ absolute_image_url }}">
+    <meta property="article:published_time" content="{{ photo_blog.created_at|date:'c' }}">
+    <meta property="article:author" content="Stephen Lawson">
+    
+    <!-- Article schema -->
+    {% if schema_data %}
+    <script type="application/ld+json">
+        {{ schema_data|safe }}
+    </script>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<main id="blogContainer">
+    <header class="blog-header">
+        <h1 id="blogTitle">{{photo_blog.title}}</h1>
+        <p id="subTitle" class="subtitle">{{photo_blog.sub_title}}</p>
+        <div class="profile-info">
+            <img class="inverted profile-image" src="{% static 'photo_app/img/profile-photo.jpg' %}" alt="Profile Image">
+            <div class="profile-details">
+                <p class="profile-name">{{ photo_blog.author|title }}</p>
+                <p class="profile-posted">{{ photo_blog.created_at|date:"F j, Y " }}</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="blog-layout">
+        <div class="blog-main">
+            <article class="blog-post">
+                <div class="share-section">
+                    <h4 class="share-title">Share this post</h4>
+                    <div class="share-buttons inverted">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ request.build_absolute_uri }}" 
+                            target="_blank" 
+                            class="share-button facebook">
+                            <i class="fab fa-facebook-f"></i>
+                            <span class="share-text">Facebook</span>
+                        </a>
+
+                        <a href="https://twitter.com/intent/tweet?url={{ request.build_absolute_uri }}&text={{ photo_blog.title|urlencode }}"
+                            target="_blank"
+                            class="share-button twitter">
+                            <i class="fab fa-twitter"></i>
+                            <span class="share-text">Twitter</span>
+                        </a>
+
+                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ request.build_absolute_uri }}&title={{ photo_blog.title|urlencode }}&summary={{ photo_blog.sub_title|urlencode }}"
+                            target="_blank"
+                            class="share-button linkedin">
+                            <i class="fab fa-linkedin-in"></i>
+                            <span class="share-text">LinkedIn</span>
+                        </a>
+
+                        <a href="https://pinterest.com/pin/create/button/?url={{ request.build_absolute_uri }}&media={{ photo_blog.image.url }}&description={{ photo_blog.title|urlencode }}"
+                            target="_blank"
+                            class="share-button pinterest">
+                            <i class="fab fa-pinterest-p"></i>
+                            <span class="share-text">Pinterest</span>
+                        </a>
+
+                        <button class="share-button copy-link" id="copyLinkBtn" 
+                                data-url="{{ request.build_absolute_uri }}">
+                            <i class="fas fa-link"></i>
+                            <span class="share-text">Copy Link</span>
+                        </button>
+                    </div>
+                </div>
+                <img src="{{ photo_blog.image.url }}" alt="{{ photo_blog.title }}" class="inverted headline-img">
+                <div class="blog-content">
+                    {{photo_blog.content|safe}}
+                </div>
+            </article>
+        </div>
+
+        <aside class="blog-sidebar">
+            <div class="sidebar-content">
+                <section class="recommended-section">
+                    <h4 class="recommended-title">Recommended</h4>
+                    <div class="recommended-posts">
+                        {% for photo_blog in photo_blogs %}
+                            <div class="card">
+                                <a href="{% url 'photo_blog:photo_blog' slug=photo_blog.slug %}" class="card-link">
+                                    <div class="card-content">
+                                        <div class="inverted card-image">
+                                            <img class="card-img" src="{{ photo_blog.image.url }}" alt="{{ photo_blog.title }}">
+                                        </div>
+                                        <div class="card-info-wrapper">
+                                            <div class="card-info">
+                                                <i class="fa-duotone fa-apartment"></i>
+                                                <div class="card-info-title">
+                                                    <h3>{{photo_blog.title}}</h3>  
+                                                    <h4>{{photo_blog.sub_title}}</h4>
+                                                </div>    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% empty %}
+                            <p class="no-posts">No photo_blogs found...</p>
+                        {% endfor %}
+                    </div>
+                </section>
+            </div>
+        </aside>
+    </div>
+</main>
+
+{% block extra_js %}
+<script>
+document.getElementById('copyLinkBtn').addEventListener('click', function() {
+    const url = this.getAttribute('data-url');
+    const isMobile = window.innerWidth <= 1000;
+    
+    navigator.clipboard.writeText(url).then(() => {
+        this.classList.add('success');
+        const originalText = this.innerHTML;
+        
+        if (isMobile) {
+            this.innerHTML = '<i class="fas fa-check"></i>';
+        } else {
+            this.innerHTML = '<i class="fas fa-check"></i><span class="share-text">Link Copied!</span>';
+        }
+        
+        setTimeout(() => {
+            this.classList.remove('success');
+            this.innerHTML = originalText;
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy text: ', err);
+    });
+});
+</script>
+{% endblock %}
+{% endblock %}

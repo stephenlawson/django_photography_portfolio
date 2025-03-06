@@ -1,0 +1,144 @@
+<!-- code_portfolio/templates/code_portfolio/project_list.html -->
+{% extends 'code_portfolio/base.html' %}
+{% load static %}
+
+{% block title %}Projects | Stephen Lawson - Python Developer{% endblock %}
+{% block meta_description %}Browse my Python, Django, and automation projects. Case studies and code samples from my work as a software developer.{% endblock %}
+
+{% block content %}
+<!-- Project List Header -->
+<section class="page-header bg-dark text-white py-5">
+    <div class="container">
+        <h1 class="display-5 fw-bold">Projects</h1>
+        <p class="lead">A collection of my work in Python development, automation, and web applications</p>
+    </div>
+</section>
+
+<!-- Filter Section -->
+<section class="filter-section py-4 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <form method="get" class="d-flex mb-3 mb-md-0">
+                    <input type="text" name="search" class="form-control me-2" placeholder="Search projects..." value="{{ request.GET.search|default:'' }}">
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <div class="d-flex flex-wrap gap-2 justify-content-md-end">
+                    <a href="{% url 'code_portfolio:project_list' %}" class="btn {% if not request.GET.skill %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">All</a>
+                    {% for skill in skills %}
+                    <a href="{% url 'code_portfolio:project_list' %}?skill={{ skill.name|urlencode }}" 
+                       class="btn {% if request.GET.skill == skill.name %}btn-primary{% else %}btn-outline-primary{% endif %} btn-sm">
+                        {{ skill.name }} ({{ skill.project_count }})
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Grid -->
+<section class="projects-grid py-5">
+    <div class="container">
+        {% if filter_active %}
+        <div class="filter-active-message mb-4">
+            <div class="alert alert-info">
+                {% if request.GET.skill %}
+                Showing projects with skill: <strong>{{ request.GET.skill }}</strong>
+                {% endif %}
+                {% if request.GET.search %}
+                Search results for: <strong>{{ request.GET.search }}</strong>
+                {% endif %}
+                <a href="{% url 'code_portfolio:project_list' %}" class="alert-link ms-2">Clear filters</a>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="row">
+            {% for project in projects %}
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card project-card h-100">
+                    <img src="{{ project.featured_image.url }}" class="card-img-top" alt="{{ project.title }}">
+                    <div class="card-body">
+                        <h2 class="card-title h5">{{ project.title }}</h2>
+                        <p class="card-text">{{ project.description|truncatewords:25 }}</p>
+                        <div class="skills-used mb-3">
+                            {% for skill in project.skills.all|slice:":3" %}
+                            <span class="badge bg-secondary me-1">{{ skill.name }}</span>
+                            {% endfor %}
+                            {% if project.skills.count > 3 %}
+                            <span class="badge bg-light text-dark">+{{ project.skills.count|add:"-3" }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <a href="{% url 'code_portfolio:project_detail' project.slug %}" class="btn btn-sm btn-primary">View Project</a>
+                        {% if project.title == 'Photography Portfolio & Booking System' and project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" class="btn btn-sm btn-outline-dark ms-1">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        {% elif project.github_url %}
+                        <span class="btn btn-sm btn-outline-secondary ms-1 disabled">
+                            <i class="fas fa-lock"></i> Confidential
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center py-5">
+                <div class="empty-state">
+                    <i class="fas fa-folder-open fa-4x text-muted mb-3"></i>
+                    <h3>No Projects Found</h3>
+                    <p>No projects match your current filters. Try changing your search criteria or browse all projects.</p>
+                    <a href="{% url 'code_portfolio:project_list' %}" class="btn btn-primary mt-3">View All Projects</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Pagination -->
+        {% if is_paginated %}
+        <nav aria-label="Project pagination" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1{% if request.GET.skill %}&skill={{ request.GET.skill }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="First">
+                        <span aria-hidden="true">&laquo;&laquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}{% if request.GET.skill %}&skill={{ request.GET.skill }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for num in page_obj.paginator.page_range %}
+                {% if page_obj.number == num %}
+                <li class="page-item active"><a class="page-link" href="#">{{ num }}</a></li>
+                {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <li class="page-item"><a class="page-link" href="?page={{ num }}{% if request.GET.skill %}&skill={{ request.GET.skill }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a></li>
+                {% endif %}
+                {% endfor %}
+                
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}{% if request.GET.skill %}&skill={{ request.GET.skill }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Next">
+                        <span aria-hidden="true">&raquo;</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}{% if request.GET.skill %}&skill={{ request.GET.skill }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}" aria-label="Last">
+                        <span aria-hidden="true">&raquo;&raquo;</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

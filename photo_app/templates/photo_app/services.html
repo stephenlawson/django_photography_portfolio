@@ -1,0 +1,40 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<nav class="breadcrumb-nav">
+    <div class="breadcrumb-container">
+        <a href="{% url 'index' %}#portfolio" class="breadcrumb-link">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Services</span>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="services-section py-7">
+    <div class="container">
+        <h1 class="text-center mb-5">Photography Services</h1>
+        <div class="services-grid">
+            {% for category in categories %}
+            <a href="{% url 'service_packages' category.name %}" class="service-card">
+                {% if category.cover_image %}
+                <div class="service-image">
+                    <img src="{{ category.cover_image.url }}" alt="{{ category.display_name }}" class="service-img inverted">
+                </div>
+                {% endif %}
+                <div class="service-content">
+                    <h2 class="service-title">{{ category.display_name }}</h2>
+                    <p class="service-description">{{ category.intro_text }}</p>
+                    <div class="service-meta">
+                        <span class="service-price">Starting at {{ category.base_price }}</span>
+                        <span class="service-duration">{{ category.duration }}</span>
+                    </div>
+                    <span class="view-packages">View Packages →</span>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

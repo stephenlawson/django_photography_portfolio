@@ -1,0 +1,9 @@
+<!-- photo_app/templates/photo_app/review_detail.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>{{ review.place_name }} Review</h1>
+  <p>Rating: {{ review.rating }}</p>
+  <p>{{ review.review_text }}</p>
+  <!-- Add other details as needed -->
+{% endblock %}

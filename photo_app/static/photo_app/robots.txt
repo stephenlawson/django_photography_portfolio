@@ -1,0 +1,18 @@
+# robots.txt for stephen.photography
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://stephen.photography/sitemap.xml
+
+# Common media and asset directories
+Allow: /static/
+Allow: /media/
+Allow: /images/
+Allow: /gallery/
+Allow: /portfolio/
+Allow: /services/
+Allow: /blog/
+
+# Crawl-delay suggestion (optional, adjust if needed)
+Crawl-delay: 1

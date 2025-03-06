@@ -1,0 +1,250 @@
+# seo_content/services.yaml
+wedding:
+  meta:
+    title: "Richmond Wedding Photographer | Wedding Photography Packages VA"
+    description: "Richmond wedding photographer capturing timeless moments. Natural, candid wedding photography throughout Virginia. All-day coverage starting at $1500."
+    keywords: "richmond wedding photographer, wedding photography packages, virginia wedding photographer, richmond wedding photography pricing, wedding photo packages richmond, all-day wedding coverage"
+  content:
+    heading: "Richmond Wedding Photography"
+    intro: "Authentic wedding photography that tells your story"
+    locations: "Richmond, Charlottesville, Virginia Beach, NOVA"
+
+portrait:
+  meta:
+    title: "Professional Portrait & Headshot Photographer Richmond VA"
+    description: "Natural, professional portraits and headshots in Richmond. Indoor and outdoor sessions for individuals, professionals, and LinkedIn profiles."
+    keywords: "richmond portrait photographer, professional headshots richmond, linkedin profile photos, business portraits virginia, professional headshot photographer, corporate headshots richmond"
+  content:
+    heading: "Portrait & Headshot Photography"
+    intro: "Professional portraits that capture your authentic self"
+
+studio:
+  meta:
+    title: "Studio Portrait & Headshot Photography Richmond | Professional Photos"
+    description: "Professional studio portraits and headshots in Richmond. Controlled lighting and backgrounds for perfect professional images."
+    keywords: "studio photography richmond, professional studio portraits, controlled lighting portraits, studio headshots richmond, professional photo studio va, studio portrait photographer"
+  content:
+    heading: "Studio Portrait Photography"
+    intro: "Professional studio portraits with perfect lighting"
+
+engagement:
+  meta:
+    title: "Richmond Engagement Photographer | Couples Photography VA"
+    description: "Romantic engagement photography in Richmond and Central Virginia. Natural, candid photos at your favorite locations. Engagement sessions from $300."
+    keywords: "richmond engagement photographer, engagement photo locations richmond, romantic engagement photos virginia, outdoor engagement pictures, candid engagement photography, engagement session richmond va, proposal photographer richmond, sunset engagement photos virginia"
+  content:
+    heading: "Engagement Photography"
+    intro: "Celebrating your love story with beautiful images"
+    locations: "Richmond, Carytown, Maymont Park, VMFA"
+
+graduation:
+  meta:
+    title: "Richmond Graduation Photographer | College & High School Senior Photos"
+    description: "Professional graduation photography for VCU, University of Richmond, and Virginia high schools. Capturing your academic milestone with style."
+    keywords: "graduation photographer richmond, vcu graduation photos, university of richmond graduation pictures, high school senior photos richmond, cap and gown pictures virginia, college graduation photographer richmond, senior portrait photographer va, graduation ceremony photos"
+  content:
+    heading: "Graduation Photography"
+    intro: "Commemorating your academic achievements"
+    locations: "VCU, University of Richmond, Virginia Union, Local High Schools"
+
+family:
+  meta:
+    title: "Richmond Family Photographer | Natural & Studio Family Portraits"
+    description: "Professional family photography in Richmond VA. Indoor and outdoor family portraits capturing genuine connections and precious moments."
+    keywords: "family photographer richmond va, outdoor family portraits virginia, studio family photos richmond, extended family photography, multi-generation family photos, family reunion photographer, fall family photos richmond, christmas card family pictures"
+  content:
+    heading: "Family Photography"
+    intro: "Creating timeless memories with your loved ones"
+
+corporate:
+  meta:
+    title: "Richmond Corporate Photographer | Business Photography Services"
+    description: "Professional corporate photography in Richmond. Headshots, team photos, and business events for companies of all sizes."
+    keywords: "corporate photographer richmond, business headshots virginia, professional linkedin photos, company team pictures richmond, executive portraits va, corporate event photography, commercial photography richmond, business branding photos"
+  content:
+    heading: "Corporate Photography"
+    intro: "Elevating your professional image"
+
+event:
+  meta:
+    title: "Richmond Event Photographer | Professional Event Coverage"
+    description: "Comprehensive event photography in Richmond VA. Specializing in corporate events, galas, conferences, and social gatherings."
+    keywords: "event photographer richmond va, corporate event photography, gala photographer virginia, conference photography richmond, social event photos, fundraiser photographer richmond, party photographer va, event photojournalism richmond"
+  content:
+    heading: "Event Photography"
+    intro: "Capturing the moments that matter"
+
+couples:
+  meta:
+    title: "Richmond Couples Photographer | Romantic Portrait Sessions"
+    description: "Natural and romantic couples photography in Richmond. Perfect for anniversaries, date nights, and relationship milestones."
+    keywords: "couples photographer richmond, anniversary photos virginia, dating photos richmond, relationship photographer va, romantic photoshoot richmond, couples portrait session, date night photographer richmond, surprise proposal photographer"
+  content:
+    heading: "Couples Photography"
+    intro: "Celebrating your love story"
+
+maternity:
+  meta:
+    title: "Richmond Maternity Photographer | Pregnancy Photo Sessions"
+    description: "Beautiful maternity photography in Richmond VA. Natural and studio maternity portraits capturing your pregnancy journey. Sessions from $300."
+    keywords: "maternity photographer richmond, pregnancy photos virginia, maternity portrait sessions, pregnancy photography richmond, maternity photo packages, pregnancy photographer va"
+  content:
+    heading: "Maternity Photography"
+    intro: "Celebrating the beauty of motherhood"
+
+newborn:
+  meta:
+    title: "Richmond Newborn Photographer | Professional Baby Photography"
+    description: "Professional newborn photography in Richmond. Safe, gentle baby portraits in your home or our studio. Specializing in newborns under 14 days."
+    keywords: "newborn photographer richmond, baby photography virginia, professional newborn photos, baby portraits richmond, newborn photo sessions, infant photographer va"
+  content:
+    heading: "Newborn Photography"
+    intro: "Capturing your baby's first moments"
+
+automotive:
+  meta:
+    title: "Richmond Automotive Photographer | Car Photography Services"
+    description: "Professional automotive photography in Richmond. High-quality vehicle photos for dealers, private sellers, and car enthusiasts."
+    keywords: "automotive photographer richmond, car photography virginia, vehicle photographer richmond, dealership photographer va, classic car photos richmond, car show photography, auto auction photographer, automotive product photography"
+  content:
+    heading: "Automotive Photography"
+    intro: "Showcasing vehicles at their best"
+
+real-estate:
+  meta:
+    title: "Richmond Real Estate Photographer | Property Photography Services"
+    description: "Professional real estate photography in Richmond VA. High-quality property photos, virtual tours, and aerial photography for listings."
+    keywords: "real estate photographer richmond, property photos virginia, real estate listing photography, architectural photographer richmond, commercial property photos va, aerial real estate photography, virtual tour photographer richmond, interior photography virginia"
+  content:
+    heading: "Real Estate Photography"
+    intro: "Presenting properties professionally"
+    specialties: [
+      "Residential Photography",
+      "Commercial Properties",
+      "Aerial Photography",
+      "Virtual Tours",
+      "Twilight Photography"
+    ]
+
+# Additional general service content
+all_services:
+  locations_served:
+    - "Richmond"
+    - "Charlottesville"
+    - "Virginia Beach"
+    - "Northern Virginia"
+  features:
+    - "Professional editing"
+    - "Quick turnaround"
+    - "Online gallery"
+    - "Print rights included"
+  equipment:
+    - "Professional Sony cameras"
+    - "Professional lighting"
+    - "Backup equipment"
+  insurance:
+    - "Fully insured"
+    - "Licensed business"
+
+wedding_videography:
+  meta:
+    title: "Richmond Wedding Videographer | Wedding Videography Packages VA"
+    description: "Professional wedding videography in Richmond, VA. Cinematic wedding films with drone coverage, licensed music, and full-day coverage options starting at $2000."
+    keywords: "richmond wedding videographer, wedding videography packages, virginia wedding videographer, wedding video packages richmond, drone wedding video, wedding highlight film, wedding ceremony video, wedding cinematography richmond"
+  content:
+    heading: "Richmond Wedding Videography"
+    intro: "Cinematic wedding films that capture every precious moment"
+    locations: "Richmond, Charlottesville, Virginia Beach, NOVA"
+    features:
+      - "Professional 4K video capture"
+      - "Licensed music selection"
+      - "Drone aerial coverage"
+      - "Multiple camera angles"
+      - "Same-day edit options"
+    packages:
+      cinematic_highlights:
+        meta:
+          title: "Cinematic Wedding Highlight Film Package | Richmond Wedding Video"
+          description: "6-hour wedding videography coverage with cinematic highlight film, drone footage, and raw footage delivery. Professional wedding videos starting at $2000."
+        content:
+          heading: "Cinematic Highlights Package"
+          intro: "Essential wedding video coverage with stunning highlights"
+      premium_wedding:
+        meta:
+          title: "Premium Wedding Film Package | Richmond Wedding Videography"
+          description: "8-hour wedding video coverage including ceremony edit, highlight film, and drone footage. Comprehensive wedding videography for $3000."
+        content:
+          heading: "Premium Wedding Film Package"
+          intro: "Complete wedding day coverage with multiple edits"
+      luxury_collection:
+        meta:
+          title: "Luxury Wedding Collection | Richmond Wedding Cinematography"
+          description: "10-hour luxury wedding videography with full ceremony, speeches, and cinematic highlight film. Premium wedding video coverage for $4000."
+        content:
+          heading: "Luxury Wedding Collection"
+          intro: "The ultimate wedding film experience"
+
+event_videography:
+  meta:
+    title: "Richmond Event Videographer | Professional Event Video Services"
+    description: "Professional event videography in Richmond. High-quality video coverage for corporate events, galas, conferences and special occasions starting at $800."
+    keywords: "event videographer richmond, corporate video services, conference videography, gala video coverage, event highlight video, richmond event filming, professional video services virginia, corporate event video"
+  content:
+    heading: "Event Videography Services"
+    intro: "Professional video coverage for all your special events"
+    locations: "Richmond Metro Area, Central Virginia"
+    features:
+      - "4K video quality"
+      - "Professional audio recording"
+      - "Multiple camera options"
+      - "Quick turnaround time"
+      - "Highlight video creation"
+    packages:
+      essential_coverage:
+        meta:
+          title: "Essential Event Video Coverage | Richmond Event Videography"
+          description: "3-hour event video coverage with highlight video. Professional event videography starting at $800."
+        content:
+          heading: "Essential Event Coverage"
+          intro: "Perfect for shorter events and basic video needs"
+      premium_coverage:
+        meta:
+          title: "Premium Event Video Package | Richmond Event Services"
+          description: "6-hour event videography with highlight video and raw footage. Comprehensive event video coverage for $1500."
+        content:
+          heading: "Premium Event Coverage"
+          intro: "Complete event coverage with additional features"
+
+# Add this to your seo_content/services.yaml file
+
+# Enhanced SEO for Cherry Blossom Mini Sessions - Add to services.yaml
+
+mini-sessions:
+  meta:
+    title: "Richmond Mini Session Photographer | Quick Photography Sessions VA"
+    description: "Affordable mini photo sessions in Richmond, VA. Short, focused photography sessions perfect for seasonal portraits, quick updates, and special occasions."
+    keywords: "pink blossom photos virginia, spring bloom portraits, cherry blossom, richmond mini sessions, mini photo sessions virginia, affordable photography richmond, quick portrait sessions, seasonal mini sessions, short photography sessions, budget photography richmond, family mini sessions va"
+  content:
+    heading: "Richmond Mini Photography Sessions"
+    intro: "Quick, affordable sessions for all your photography needs"
+    locations: "Richmond, Henrico, Chesterfield"
+    features:
+      - "15-30 minute sessions"
+      - "Quick turnaround time"
+      - "Digital image delivery"
+      - "Affordable pricing"
+      - "Seasonal themes available"
+    packages:
+      cherry_blossom_mini:
+        meta:
+          title: "Cherry Blossom Mini Sessions Richmond VA | Spring Cherry Tree Photos"
+          description: "Stunning cherry blossom portrait sessions in Richmond at Brown's Island. Capture the fleeting beauty of spring blooms in these limited-time mini sessions."
+          keywords: "cherry blossom photos richmond, spring mini sessions va, cherry blossom portraits, richmond cherry tree photos, spring family portraits richmond, cherry blossom photography session, brown island cherry blossoms, cary street cherry trees, richmond spring photography, pink blossom photos virginia, spring bloom portraits, sakura photography richmond, flowering tree portraits"
+        content:
+          heading: "Cherry Blossom Mini Sessions"
+          intro: "Capture the breathtaking beauty of Richmond's cherry blossoms in our exclusive mini sessions. These limited-time portrait sessions take place under the stunning canopy of pink blooms at the picturesque corner of Brown's Island."
+          location: "Brown's Island, Richmond VA"
+          season: "Late March to Early April (Peak Bloom Season)"
+          description: "Our cherry blossom mini sessions are perfect for couples, families, children, and individuals looking to capture stunning spring portraits against a backdrop of delicate pink blooms. These highly-sought sessions are scheduled during the predicted peak bloom, which typically lasts only 1-2 weeks each spring. Book early to secure your spot for these magical portraits that capture one of Richmond's most beautiful seasonal displays."
+          why_cherry_blossoms: "Cherry blossoms symbolize renewal, the fleeting nature of life, and the beauty of spring. The delicate pink petals create a dreamy, romantic backdrop that's perfect for portraits. Brown's Island location offers Richmond's most picturesque canopy of cherry trees, creating a tunnel-like effect of pink blooms overhead."
+          what_to_wear: "Soft pastels, whites, creams, and light neutrals complement the delicate pink blossoms beautifully. Avoid busy patterns or bright colors that might compete with the natural scenery."

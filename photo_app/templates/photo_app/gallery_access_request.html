@@ -1,0 +1,81 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+{% block content %}
+<section id = "contact" class = "py-7">
+    <div class = "container">
+        <div class = "contact-content flex">
+            <div class = "contact-left">
+                <div class="title">
+                    <h1>
+                        {% if event_provided %}
+                            Gallery Access Request for {{ event.name }}
+                        {% else %}
+                            Gallery Access Request
+                        {% endif %}
+                    </h1>
+                    <p>Please fill out the form below to request access to photo gallery.</p>
+                </div>
+                <form id="myForm" method="post">
+                    {% csrf_token %}
+                    <div>
+                        {{ form.name.label_tag }}
+                        {{ form.name }}
+                        {% if form.name.errors %}
+                            <div class="error">{{ form.name.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {{ form.email.label_tag }}
+                        {{ form.email }}
+                        {% if form.email.errors %}
+                            <div class="error">{{ form.email.errors }}</div>
+                        {% endif %}
+                    </div>
+                    {% if not event_provided %}
+                        <div>
+                            {{ form.event.label_tag }}
+                            {{ form.event }}
+                            {% if form.event.errors %}
+                                <div class="error">{{ form.event.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                    <div>
+                        {{ form.comments.label_tag }}
+                        {{ form.comments }}
+                        {% if form.comments.errors %}
+                            <div class="error">{{ form.comments.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <div>
+                        {{ form.captcha.label_tag }}
+                        {{ form.captcha }}
+                        {% if form.comments.errors %}
+                            <div class="error">{{ form.captcha.errors }}</div>
+                        {% endif %}
+                    </div>
+                    <button>
+                        <div class="button_base b03_skewed_slide_in">
+                            <div>Submit</div>
+                            <div></div>
+                            <div>Submit</div>
+                        </div>
+                    </button>
+                    
+                </form>
+            </div>
+
+            <div class = "contact-right">
+                <div class="blurred-img blurred-img-contact">
+                    <img class="contact inverted" loading="lazy" src = "{% static 'photo_app/img/contact-pic.jpg' %}" alt = "contact image">
+                </div>
+                <br/>
+                <br/>
+                <p class = "lead"><i class = "fas fa-phone-alt"></i> +1 757 816 7566</p>
+                <p class = "lead"><i class = "fas fa-envelope"></i> info@stephen.photography</p>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock content %}
+

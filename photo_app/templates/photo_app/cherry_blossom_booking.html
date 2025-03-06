@@ -1,0 +1,328 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<nav class="breadcrumb-nav">
+    <div class="breadcrumb-container">
+        <a href="{% url 'index' %}#portfolio" class="breadcrumb-link">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="{% url 'services' %}" class="breadcrumb-link">Services</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="{% url 'service_packages' 'mini-sessions' %}" class="breadcrumb-link">Mini Sessions</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">Cherry Blossom Mini Sessions</span>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="hero-section inverted">
+        <img src="https://django-portfolio-apps.s3.us-east-1.amazonaws.com/photo_app/img/cherry-blossoms.jpg" alt="Cherry Blossoms" class="hero-image">
+        <div class="hero-overlay">
+            <h1>{{ cherry_service.name }}</h1>
+        </div>
+    </div>
+    
+    <div class="session-info">
+        <h2>{{ cherry_service.name }}</h2>
+        <p>{{ cherry_service.duration }} | ${{ cherry_service.base_price|floatformat:2 }} | {{ cherry_session_location }}</p>
+        <p>{{ cherry_service.extended_description|safe }}</p>
+    </div>
+    <div class="calendar-container">
+        <div class="calendar-header">
+            <button id="prev-month">&larr;</button>
+            <h2 id="current-month">March 2025</h2>
+            <button id="next-month">&rarr;</button>
+        </div>
+        <div id="calendar" class="calendar"></div>
+        
+        <div id="time-slots" class="time-slots">
+            <!-- Time slots will be dynamically populated here -->
+        </div>
+
+        <div id="booking-section" class="booking-form" style="display: none;">
+            <form id="booking-form" method="post">
+                {% csrf_token %}
+                <input type="text" id="first-name" name="first_name" placeholder="First Name" required>
+                <input type="text" id="last-name" name="last_name" placeholder="Last Name" required>
+                <input type="email" id="client-email" name="client_email" placeholder="Your Email" required>
+                <input type="tel" id="client-phone" name="client_phone" placeholder="Your Phone" required>
+                <input type="hidden" id="selected-date" name="selected_date">
+                <input type="hidden" id="selected-time" name="selected_time">
+                <input type="hidden" id="session-id" name="session_id">
+                <textarea id="additional-info" name="additional_info" placeholder="Additional information (optional)"></textarea>
+                <button type="submit" id="book-session">Book Session</button>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Loading overlay -->
+    <div id="loading-overlay" class="loading-overlay">
+        <div class="spinner"></div>
+        <div class="spinner-message">Processing your booking...</div>
+    </div>
+    
+    <!-- Cherry Blossom Gallery -->
+    <div class="blossom-gallery-section">
+        <div class="blossom-gallery inverted">
+            <div class="blossom-gallery-item blossom-portrait">
+                <img src="{% static 'photo_app/img/blossoms-1.jpg' %}" alt="Cherry Blossom Portrait - Families" class="blossom-img">
+            </div>
+            <div class="blossom-gallery-item blossom-portrait">
+                <img src="{% static 'photo_app/img/blossoms-2.jpg' %}" alt="Cherry Blossom Portrait - Couples" class="blossom-img">
+            </div>
+            <div class="blossom-gallery-item blossom-portrait">
+                <img src="{% static 'photo_app/img/blossoms-3.jpg' %}" alt="Cherry Blossom Portrait - Maternity" class="blossom-img">
+            </div>
+            <div class="blossom-gallery-item blossom-portrait">
+                <img src="{% static 'photo_app/img/blossoms-4.jpg' %}" alt="Cherry Blossom Portrait - Engagement" class="blossom-img">
+            </div>
+            <div class="blossom-gallery-item blossom-landscape">
+                <img src="{% static 'photo_app/img/blossoms-5.jpg' %}" alt="Cherry Blossom Landscape at Brown's Island" class="blossom-img">
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const calendar = document.getElementById('calendar');
+        const currentMonthElement = document.getElementById('current-month');
+        const prevMonthBtn = document.getElementById('prev-month');
+        const nextMonthBtn = document.getElementById('next-month');
+        const timeSlotsContainer = document.getElementById('time-slots');
+        const bookingSection = document.getElementById('booking-section');
+        const bookingForm = document.getElementById('booking-form');
+        const selectedDateInput = document.getElementById('selected-date');
+        const selectedTimeInput = document.getElementById('selected-time');
+        const sessionIdInput = document.getElementById('session-id');
+        const loadingOverlay = document.getElementById('loading-overlay');
+
+        // Available dates from the server
+        const availableDates = JSON.parse('{{ available_dates|escapejs }}');
+        
+        let currentDate = new Date(2025, 2, 1); // March 2025
+        let selectedDate = null;
+        let selectedTimeSlot = null;
+
+        // Add CSS for booked slots
+        const style = document.createElement('style');
+        style.id = 'booked-slots-style';
+        style.textContent = `
+            .time-slot.booked {
+                text-decoration: line-through;
+                color: #999;
+                opacity: 0.7;
+                cursor: not-allowed;
+                position: relative;
+            }
+            .time-slot.booked::after {
+                content: "Unavailable";
+                display: block;
+                font-size: 0.7em;
+                color: #d32f2f;
+            }
+        `;
+        document.head.appendChild(style);
+
+        function renderCalendar() {
+            calendar.innerHTML = ''; // Clear previous calendar
+            currentMonthElement.textContent = currentDate.toLocaleString('default', { month: 'long', year: 'numeric' });
+
+            const firstDay = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+            const lastDay = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+
+            // Add day headers (Sun, Mon, etc.)
+            const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+            dayNames.forEach(day => {
+                const dayHeader = document.createElement('div');
+                dayHeader.textContent = day;
+                dayHeader.classList.add('calendar-day-header');
+                calendar.appendChild(dayHeader);
+            });
+
+            // Add empty cells for days before the first day
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('calendar-day', 'disabled');
+                calendar.appendChild(emptyDay);
+            }
+
+            // Render days
+            for (let day = 1; day <= lastDay.getDate(); day++) {
+                const dayElement = document.createElement('div');
+                dayElement.textContent = day;
+                dayElement.classList.add('calendar-day');
+
+                const fullDate = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+                const dateString = fullDate.toISOString().split('T')[0];
+
+                // Mark today and allowed dates
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                if (fullDate < today) {
+                    dayElement.classList.add('disabled');
+                } else if (availableDates.includes(dateString)) {
+                    dayElement.classList.add('available');
+                    dayElement.addEventListener('click', () => selectDate(fullDate, dayElement));
+                } else {
+                    dayElement.classList.add('unavailable');
+                }
+
+                calendar.appendChild(dayElement);
+            }
+        }
+
+        function selectDate(date, dayElement) {
+            // Deselect previous selection
+            const prevSelected = calendar.querySelector('.selected');
+            if (prevSelected) prevSelected.classList.remove('selected');
+
+            dayElement.classList.add('selected');
+            selectedDate = date;
+            
+            // Format date for the form
+            selectedDateInput.value = date.toISOString().split('T')[0];
+
+            // Clear selected time slot
+            selectedTimeSlot = null;
+            
+            // Fetch available time slots for this date
+            fetchTimeSlots(date);
+        }
+
+        function fetchTimeSlots(date) {
+            // Format date as YYYY-MM-DD
+            const formattedDate = date.toISOString().split('T')[0];
+            
+            // Show loading indicator
+            timeSlotsContainer.innerHTML = '<p>Loading available times...</p>';
+            
+            fetch(`/cherry-blossoms-mini/times/${formattedDate}/`)
+                .then(response => response.json())
+                .then(data => {
+                    renderTimeSlots(data.slots);
+                })
+                .catch(error => {
+                    console.error('Error fetching time slots:', error);
+                    timeSlotsContainer.innerHTML = '<p>Error loading time slots. Please try again.</p>';
+                });
+        }
+
+        function renderTimeSlots(slots) {
+            timeSlotsContainer.innerHTML = ''; // Clear previous slots
+            bookingSection.style.display = 'none';
+
+            if (!slots || slots.length === 0) {
+                timeSlotsContainer.innerHTML = '<p>No time slots available for this date</p>';
+                return;
+            }
+
+            const timeHeader = document.createElement('h3');
+            timeHeader.textContent = 'Session Times';
+            timeHeader.classList.add('time-slots-header');
+            timeSlotsContainer.appendChild(timeHeader);
+
+            slots.forEach(slot => {
+                const slotElement = document.createElement('div');
+                slotElement.textContent = slot.time;
+                slotElement.classList.add('time-slot');
+                slotElement.dataset.id = slot.id;
+                slotElement.dataset.time = slot.time;
+                
+                // Add a booked class if the slot is reserved/booked
+                if (slot.is_booked) {
+                    slotElement.classList.add('booked');
+                    slotElement.title = "This time slot is unavailable";
+                } else {
+                    // Only add click event for available slots
+                    slotElement.addEventListener('click', () => selectTimeSlot(slot, slotElement));
+                }
+                
+                timeSlotsContainer.appendChild(slotElement);
+            });
+        }
+
+        function selectTimeSlot(slot, slotElement) {
+            // Deselect previous time slot
+            const prevSelected = timeSlotsContainer.querySelector('.selected');
+            if (prevSelected) prevSelected.classList.remove('selected');
+
+            slotElement.classList.add('selected');
+            selectedTimeSlot = slot;
+            
+            // Update form values
+            selectedTimeInput.value = slot.time;
+            sessionIdInput.value = slot.id;
+            
+            // Show booking form
+            bookingSection.style.display = 'block';
+            
+            // Scroll to booking form
+            bookingSection.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Handle form submission
+        bookingForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!selectedDate || !selectedTimeSlot) {
+                alert('Please select a date and time slot');
+                return;
+            }
+            
+            // Show loading overlay and disable submit button
+            const submitButton = document.getElementById('book-session');
+            loadingOverlay.style.display = 'flex';
+            submitButton.disabled = true;
+            
+            const formData = new FormData(bookingForm);
+            
+            fetch('/cherry-blossoms-mini/book/', {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-CSRFToken': formData.get('csrfmiddlewaretoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading overlay
+                loadingOverlay.style.display = 'none';
+                submitButton.disabled = false;
+                
+                if (data.success) {
+                    window.location.href = '/cherry-blossoms-mini/thank-you/';
+                } else {
+                    alert('Booking failed: ' + (data.error || 'Please try again'));
+                }
+            })
+            .catch(error => {
+                // Hide loading overlay even if there's an error
+                loadingOverlay.style.display = 'none';
+                submitButton.disabled = false;
+                
+                console.error('Booking error:', error);
+                alert('An error occurred while booking. Please try again.');
+            });
+        });
+
+        // Month navigation
+        prevMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+
+        nextMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+
+        // Initial render
+        renderCalendar();
+    });
+</script>
+{% endblock content %}

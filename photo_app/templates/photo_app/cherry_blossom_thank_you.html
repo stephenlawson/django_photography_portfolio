@@ -1,0 +1,185 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <div class="thank-you-container">
+        <div class="thank-you-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h1>Thank You for Your Booking!</h1>
+        <p>Your Cherry Blossom Mini Session has been confirmed. You will receive a confirmation email shortly.</p>
+        
+        <div class="booking-details-section">
+            <h2>What's Next?</h2>
+            <div class="next-steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Mark Your Calendar</h3>
+                        <p>Please arrive 5-10 minutes before your scheduled time to ensure a smooth session.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Prepare for Your Session</h3>
+                        <p>Wear colors that complement the cherry blossoms - soft pastels, whites, or neutrals work best.</p>
+                    </div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Weather Policy</h3>
+                        <p>In case of inclement weather, we will contact you to reschedule your session.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="questions-section">
+            <h2>Have Questions?</h2>
+            <p>If you need to make any changes or have questions about your booking, please contact me at:</p>
+            <p><i class="fas fa-envelope"></i> <a href="mailto:info@stephen.photography">info@stephen.photography</a></p>
+            <p><i class="fas fa-phone"></i> <a href="tel:+17578167566">(757) 816-7566</a></p>
+        </div>
+        
+        <div class="return-links">
+            <a href="{% url 'index' %}" class="return-home-btn">Return to Homepage</a>
+        </div>
+    </div>
+</div>
+
+<!-- Add some custom CSS for this page -->
+<style>
+    .thank-you-container {
+        max-width: 800px;
+        margin: 3rem auto;
+        padding: 2rem;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    .thank-you-icon {
+        font-size: 5rem;
+        color: #4CAF50;
+        margin-bottom: 1rem;
+    }
+    
+    .thank-you-container h1 {
+        margin-bottom: 1rem;
+        color: #333;
+    }
+    
+    .thank-you-container p {
+        font-size: 1.2rem;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+    
+    .booking-details-section,
+    .questions-section {
+        margin: 3rem 0;
+        text-align: left;
+    }
+    
+    .booking-details-section h2,
+    .questions-section h2 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+        color: #333;
+    }
+    
+    .next-steps {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .step {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    
+    .step-number {
+        background-color: #3897f0;
+        color: white;
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        flex-shrink: 0;
+    }
+    
+    .step-content h3 {
+        margin-top: 0;
+        margin-bottom: 0.5rem;
+        color: #333;
+    }
+    
+    .step-content p {
+        margin: 0;
+        font-size: 1rem;
+    }
+    
+    .questions-section p {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+    }
+    
+    .questions-section a {
+        color: #3897f0;
+        text-decoration: none;
+    }
+    
+    .questions-section i {
+        margin-right: 0.5rem;
+        color: #3897f0;
+    }
+    
+    .return-links {
+        margin-top: 3rem;
+    }
+    
+    .return-home-btn {
+        display: inline-block;
+        background-color: #3897f0;
+        color: white;
+        padding: 0.8rem 1.5rem;
+        border-radius: 5px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+    
+    .return-home-btn:hover {
+        background-color: #2980b9;
+        color: white;
+    }
+    
+    @media (max-width: 768px) {
+        .thank-you-container {
+            padding: 1.5rem;
+            margin: 2rem auto;
+        }
+        
+        .thank-you-icon {
+            font-size: 4rem;
+        }
+        
+        .thank-you-container h1 {
+            font-size: 1.8rem;
+        }
+        
+        .thank-you-container p {
+            font-size: 1rem;
+        }
+    }
+</style>
+{% endblock content %}

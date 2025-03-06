@@ -1,0 +1,118 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+
+{% block content %}
+<section class="contact-page py-7">
+    <div class="container">
+        <div class="contact-page-content">
+            <div class="contact-page-header">
+                <h1 class="text-center">Get In Touch</h1>
+                {% if selected_service and selected_package %}
+                <p class="text-center lead">Inquire about {{ selected_service|title }} - {{ selected_package }}</p>
+                {% endif %}
+            </div>
+
+            <div class="contact-grid">
+                <div class="contact-form-section">
+                    <form id="myForm" method="post">
+                        {% csrf_token %}
+                        
+                        <div class="form-group">
+                            {{ form.first_name.label_tag }}
+                            {{ form.first_name }}
+                            {{ form.first_name.errors }}
+                        </div>
+                    
+                        <div class="form-group">
+                            {{ form.last_name.label_tag }}
+                            {{ form.last_name }}
+                            {{ form.last_name.errors }}
+                        </div>
+                    
+                        <div class="form-group">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                            {{ form.email.errors }}
+                        </div>
+                    
+                        <div class="form-group">
+                            {{ form.phone.label_tag }}
+                            {{ form.phone }}
+                            {{ form.phone.errors }}
+                        </div>
+                    
+                        <div class="form-group">
+                            {{ form.service.label_tag }}
+                            {{ form.service }}
+                            {{ form.service.errors }}
+                        </div>
+                    
+                        <div class="form-group">
+                            {{ form.package.label_tag }}
+                            {{ form.package }}
+                            {{ form.package.errors }}
+                        </div>
+                    
+                        <div class="form-group">
+                            {{ form.date.label_tag }}
+                            {{ form.date }}
+                            {{ form.date.errors }}
+                        </div>
+                    
+                        <div class="form-group">
+                            {{ form.location.label_tag }}
+                            {{ form.location }}
+                            {{ form.location.errors }}
+                        </div>
+                    
+                        <div class="form-group">
+                            {{ form.additional_info.label_tag }}
+                            {{ form.additional_info }}
+                            {{ form.additional_info.errors }}
+                        </div>
+                    
+                        <div class="form-group">
+                            {{ form.captcha.label_tag }}
+                            {{ form.captcha }}
+                            {{ form.captcha.errors }}
+                        </div>
+                    
+                        <button type="submit">
+                            <div class="button_base b03_skewed_slide_in">
+                                <div>Submit</div>
+                                <div></div>
+                                <div>Submit</div>
+                            </div>
+                        </button>
+                    </form>
+                </div>
+
+                <div class="contact-info-section">
+                    <div class="contact-image">
+                        <div class="blurred-img blurred-img-contact">
+                            <img class="contact inverted" src="{% static 'photo_app/img/contact-pic.jpg' %}" alt="contact image">
+                        </div>
+                    </div>
+                    
+                    <div class="contact-details">
+                        <h3>Contact Information</h3>
+                        <p class="lead"><i class="fas fa-phone-alt"></i> +1 757 816 7566</p>
+                        <p class="lead"><i class="fas fa-envelope"></i> info@stephen.photography</p>
+                        <p class="lead"><i class="fas fa-map-marker-alt"></i> 1001 E. Byrd St., Richmond, VA 23219</p>
+                        
+                        <div class="social-links-contact">
+                            <h4>Follow Me</h4>
+                            <div class="social-icons">
+                                <a href="https://www.instagram.com/stephenlawsonphotos/" target="_blank"><i class="fab fa-instagram"></i></a>
+                                <a href="https://www.facebook.com/people/Stephen-Lawson-Photography/100095105778407/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                                <a href="https://www.yelp.com/biz/stephen-lawson-photography-richmond" target="_blank"><i class="fab fa-yelp"></i></a>
+                                <!-- Add other social links as needed -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

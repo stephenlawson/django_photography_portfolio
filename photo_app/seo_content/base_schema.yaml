@@ -1,0 +1,21 @@
+# base_schema.yaml
+business:
+  name: "Stephen Lawson Photography"
+  address:
+    street: "1001 E. Byrd St."
+    city: "Richmond"
+    state: "VA"
+    zip: "23219"
+    country: "US"
+  contact:
+    phone: "+17578167566"
+    email: "info@stephen.photography"
+  coordinates:
+    latitude: "37.5347"
+    longitude: "-77.4300"
+  price_range: "$$"
+
+social_media:
+  instagram: "stephenlawsonphotos"
+  facebook: "StephenLawsonPhotography"
+  google_business: "https://goo.gl/maps/ErfBr8BvmW45dv2E9"

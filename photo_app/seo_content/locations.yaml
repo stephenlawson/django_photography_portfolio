@@ -1,0 +1,14 @@
+# seo_content/locations.yaml
+richmond:
+  name: "Richmond"
+  state: "VA"
+  region: "Central Virginia"
+  service_area: "50 mile radius"
+  nearby_cities:
+    - name: "Charlottesville"
+      distance: "70 miles"
+    - name: "Virginia Beach"
+      distance: "100 miles"
+  content:
+    intro: "Professional photography services in Richmond, Virginia and surrounding areas."
+    areas_served: "Serving Richmond, Henrico, Chesterfield, and all of Central Virginia"

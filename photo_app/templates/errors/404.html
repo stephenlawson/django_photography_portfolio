@@ -1,0 +1,10 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+{% block content %}
+    <div class="login-container vh-100 flex py-7 inverted">
+        <div class="login-modal">
+            <h1>404 - Page Not Found</h1>
+            <p>The requested page could not be found. Please check the URL or go back to the <a href="{% url 'index' %}">homepage</a>.</p>
+        </div>
+    </div>
+{% endblock content %}

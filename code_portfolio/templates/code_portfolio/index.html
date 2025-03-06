@@ -1,0 +1,176 @@
+<!-- code_portfolio/templates/code_portfolio/index.html -->
+{% extends 'code_portfolio/base.html' %}
+{% load static %}
+
+{% block title %}Stephen Lawson - Python Developer | Django & Automation Specialist{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">Python Developer <span class="text-primary">&</span> Automation Specialist</h1>
+                <p class="lead mb-4">I create efficient, elegant solutions using Python, Django, and data science tools. Specializing in automation, web development, and streamlining complex workflows.</p>
+                <div class="d-flex gap-3">
+                    <a href="{% url 'code_portfolio:project_list' %}" class="btn btn-primary btn-lg">View Projects</a>
+                    <a href="{% url 'code_portfolio:contact' %}" class="btn btn-outline-light btn-lg">Get in Touch</a>
+                </div>
+            </div>
+            <div class="col-lg-6 mt-5 mt-lg-0 text-center">
+                <img src="{% static 'code_portfolio/img/hero-image.jpg' %}" alt="Python Developer" class="img-fluid hero-image">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Skills Section -->
+<section class="featured-skills py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Technical Expertise</h2>
+            <p class="section-subtitle">Core technologies I work with</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="skill-card text-center p-4 h-100">
+                    <div class="icon-container mb-3">
+                        <i class="fab fa-python fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="skill-title">Python Development</h3>
+                    <p>Building robust applications, automations, and data processing solutions with Python.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="skill-card text-center p-4 h-100">
+                    <div class="icon-container mb-3">
+                        <i class="fas fa-server fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="skill-title">Django & Web Development</h3>
+                    <p>Creating scalable web applications and APIs using Django and modern web technologies.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="skill-card text-center p-4 h-100">
+                    <div class="icon-container mb-3">
+                        <i class="fas fa-robot fa-3x text-primary"></i>
+                    </div>
+                    <h3 class="skill-title">Automation</h3>
+                    <p>Streamlining workflows, reducing manual effort, and increasing efficiency through automation.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'code_portfolio:skills' %}" class="btn btn-outline-primary">View All Skills</a>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Projects Section -->
+<section class="featured-projects py-5">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">Some of my recent work</p>
+        </div>
+        
+        <div class="row">
+            {% for project in featured_projects %}
+            <div class="col-md-4 mb-4">
+                <div class="card project-card h-100">
+                    <img src="{{ project.featured_image.url }}" class="card-img-top" alt="{{ project.title }}">
+                    <div class="card-body">
+                        <h3 class="card-title h5">{{ project.title }}</h3>
+                        <p class="card-text">{{ project.description|truncatewords:20 }}</p>
+                        <div class="skills-used mb-3">
+                            {% for skill in project.skills.all|slice:":3" %}
+                            <span class="badge bg-secondary me-1">{{ skill.name }}</span>
+                            {% endfor %}
+                            {% if project.skills.count > 3 %}
+                            <span class="badge bg-light text-dark">+{{ project.skills.count|add:"-3" }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white border-top-0">
+                        <a href="{% url 'code_portfolio:project_detail' project.slug %}" class="btn btn-sm btn-primary">View Project</a>
+                        {% if project.title == 'Photography Portfolio & Booking System' and project.github_url %}
+                        <a href="{{ project.github_url }}" target="_blank" class="btn btn-sm btn-outline-dark ms-1">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                        {% elif project.github_url %}
+                        <span class="btn btn-sm btn-outline-secondary ms-1 disabled">
+                            <i class="fas fa-lock"></i> Confidential
+                        </span>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <div class="col-12 text-center">
+                <p>Projects coming soon!</p>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'code_portfolio:project_list' %}" class="btn btn-outline-primary">View All Projects</a>
+        </div>
+    </div>
+</section>
+
+<!-- Experience Section -->
+<section class="experience-section py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Professional Experience</h2>
+            <p class="section-subtitle">Where I've worked</p>
+        </div>
+        
+        {% if recent_experience %}
+        <div class="row">
+            <div class="col-md-6 offset-md-3">
+                <div class="experience-card p-4 bg-white rounded shadow-sm">
+                    <div class="d-flex justify-content-between mb-3">
+                        <h3 class="h5 mb-0">{{ recent_experience.position }}</h3>
+                        <span class="badge bg-primary align-self-start">Current</span>
+                    </div>
+                    <p class="company mb-2">
+                        <i class="fas fa-building me-2 text-muted"></i>
+                        {{ recent_experience.company }}
+                    </p>
+                    <p class="location mb-3">
+                        <i class="fas fa-map-marker-alt me-2 text-muted"></i>
+                        {{ recent_experience.location }}
+                    </p>
+                    <div class="mb-3">
+                        {{ recent_experience.description|safe|truncatewords_html:50 }}
+                    </div>
+                    <div class="skills-used mt-3">
+                        {% for skill in recent_experience.skills_used.all %}
+                        <span class="badge bg-light text-dark me-1 mb-1">{{ skill.name }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'code_portfolio:about' %}" class="btn btn-outline-primary">View Full Experience</a>
+        </div>
+    </div>
+</section>
+
+<!-- Contact CTA Section -->
+<section class="contact-cta py-5 bg-primary text-white text-center">
+    <div class="container">
+        <h2 class="mb-3">Let's Work Together</h2>
+        <p class="lead mb-4">Have a project in mind or want to discuss opportunities?</p>
+        <a href="{% url 'code_portfolio:contact' %}" class="btn btn-light btn-lg">Get in Touch</a>
+    </div>
+</section>
+{% endblock %}

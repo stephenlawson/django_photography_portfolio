@@ -1,0 +1,257 @@
+<!-- code_portfolio/templates/code_portfolio/about.html -->
+{% extends 'code_portfolio/base.html' %}
+{% load static %}
+{% load code_porfolio_tags %}
+
+{% block title %}About | Stephen Lawson - Python Developer{% endblock %}
+{% block meta_description %}Learn about Stephen Lawson, a Python developer based in Richmond, Virginia specializing in automation, Django web development, and data science.{% endblock %}
+
+{% block content %}
+<!-- About Header -->
+<section class="page-header bg-dark text-white py-5">
+    <div class="container">
+        <h1 class="display-5 fw-bold">About Me</h1>
+        <p class="lead">Python Developer & Automation Specialist based in Richmond, Virginia</p>
+    </div>
+</section>
+
+<!-- Bio Section -->
+<section class="bio-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <img src="{% static 'code_portfolio/img/profile-photo.jpg' %}" alt="Stephen Lawson" class="img-fluid rounded shadow-lg">
+            </div>
+            <div class="col-lg-7">
+                <h2 class="h3 mb-4">Hello, I'm Stephen</h2>
+                <p class="mb-4">I'm a Python developer with a focus on automation, web development, and data analysis. With a background in both biology and technology, I bring a unique perspective to solving complex problems through code.</p>
+                
+                <p class="mb-4">Currently working as a Python Developer at INADEV, I develop enterprise solutions and implement best practices in software development. My journey into programming began in laboratory settings, where I created custom tools to streamline research workflows and analyze experimental data.</p>
+                
+                <p class="mb-4">I'm passionate about creating efficient, elegant solutions that make processes more streamlined and user-friendly. Whether it's automating repetitive tasks, building web applications, or analyzing complex datasets, I enjoy the challenge of finding the right approach for each unique problem.</p>
+                
+                <div class="d-flex gap-3 mt-4">
+                    <a href="{% url 'code_portfolio:project_list' %}" class="btn btn-primary">View My Projects</a>
+                    <a href="{% url 'code_portfolio:contact' %}" class="btn btn-outline-dark">Get in Touch</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience Section -->
+<section class="experience-section py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Professional Experience</h2>
+        
+        <div class="timeline">
+            {% for experience in work_experiences %}
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content bg-white p-4 rounded shadow-sm">
+                    <div class="d-flex justify-content-between mb-3">
+                        <h3 class="h5 mb-0">{{ experience.position }}</h3>
+                        {% if experience.is_current %}
+                        <span class="badge bg-primary">Current</span>
+                        {% endif %}
+                    </div>
+                    <p class="company mb-2">
+                        <i class="fas fa-building me-2 text-muted"></i>
+                        {{ experience.company }}
+                    </p>
+                    <p class="location mb-2">
+                        <i class="fas fa-map-marker-alt me-2 text-muted"></i>
+                        {{ experience.location }}
+                    </p>
+                    <p class="date mb-3">
+                        <i class="far fa-calendar-alt me-2 text-muted"></i>
+                        {{ experience.start_date|date:"M Y" }} - 
+                        {% if experience.is_current %}
+                        Present
+                        {% else %}
+                        {{ experience.end_date|date:"M Y" }}
+                        {% endif %}
+                    </p>
+                    <div class="mb-3">
+                        {{ experience.description|safe }}
+                    </div>
+                    
+                    {% if experience.skills_used.exists %}
+                    <div class="skills-used mt-3">
+                        <strong class="d-block mb-2 small">Skills & Technologies:</strong>
+                        <div class="d-flex flex-wrap gap-1">
+                            {% for skill in experience.skills_used.all %}
+                            <span class="badge bg-light text-dark">{{ skill.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            {% empty %}
+            <div class="text-center py-5">
+                <p>Experience details coming soon.</p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Education Section -->
+<section class="education-section py-5">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Education & Certifications</h2>
+        
+        <div class="row">
+            <div class="col-lg-6 mb-4">
+                <h3 class="h4 mb-4">Academic Background</h3>
+                
+                {% for edu in education %}
+                <div class="education-item bg-white p-4 rounded shadow-sm mb-4">
+                    <h4 class="h5 mb-2">{{ edu.degree }} in {{ edu.field_of_study }}</h4>
+                    <p class="institution mb-2">
+                        <i class="fas fa-university me-2 text-muted"></i>
+                        {{ edu.institution }}
+                    </p>
+                    <p class="date mb-3">
+                        <i class="far fa-calendar-alt me-2 text-muted"></i>
+                        {{ edu.start_date|date:"Y" }} - 
+                        {% if edu.end_date %}
+                        {{ edu.end_date|date:"Y" }}
+                        {% else %}
+                        Present
+                        {% endif %}
+                    </p>
+                    {% if edu.description %}
+                    <p class="mb-0">{{ edu.description }}</p>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <h4 class="h5 mb-2">B.S. Biology</h4>
+                    <p class="institution mb-2">
+                        <i class="fas fa-university me-2 text-muted"></i>
+                        Virginia Commonwealth University
+                    </p>
+                    <p class="date mb-3">
+                        <i class="far fa-calendar-alt me-2 text-muted"></i>
+                        Graduated: December 2019
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <div class="col-lg-6">
+                <h3 class="h4 mb-4">Certifications & Courses</h3>
+                
+                {% for cert in certificates %}
+                <div class="certificate-item bg-white p-4 rounded shadow-sm mb-4">
+                    <h4 class="h5 mb-2">{{ cert.name }}</h4>
+                    <p class="issuer mb-2">
+                        <i class="fas fa-certificate me-2 text-muted"></i>
+                        {{ cert.issuer }}
+                    </p>
+                    <p class="date mb-3">
+                        <i class="far fa-calendar-alt me-2 text-muted"></i>
+                        {{ cert.date_obtained|date:"F Y" }}
+                    </p>
+                    {% if cert.description %}
+                    <p class="mb-0">{{ cert.description }}</p>
+                    {% endif %}
+                    {% if cert.url %}
+                    <div class="mt-3">
+                        <a href="{{ cert.url }}" target="_blank" class="btn btn-sm btn-outline-primary">
+                            <i class="fas fa-external-link-alt me-1"></i> View Certificate
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+                {% empty %}
+                <div class="certificate-item bg-white p-4 rounded shadow-sm mb-4">
+                    <h4 class="h5 mb-2">Google IT Automation with Python Professional</h4>
+                    <p class="issuer mb-2">
+                        <i class="fas fa-certificate me-2 text-muted"></i>
+                        Google
+                    </p>
+                </div>
+                <div class="certificate-item bg-white p-4 rounded shadow-sm mb-4">
+                    <h4 class="h5 mb-2">Python Novice to Pythonista</h4>
+                    <p class="issuer mb-2">
+                        <i class="fas fa-certificate me-2 text-muted"></i>
+                        Skillsoft
+                    </p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Personal Interests -->
+<section class="interests-section py-5 bg-light">
+    <div class="container">
+        <h2 class="section-title text-center mb-5">Beyond Coding</h2>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="bg-white p-4 rounded shadow-sm">
+                    <p class="mb-4">When I'm not coding, you can find me pursuing my passion for photography. As a professional photographer, I run a photography business specializing in portraiture and events that you can check out at <a href="https://stephen.photography" target="_blank">stephen.photography</a>.</p>
+                    
+                    <p class="mb-4">I also enjoy exploring the outdoors, experimenting with new recipes, and continuously learning about new technologies and scientific advancements.</p>
+                    
+                    <p class="mb-0">I believe that diverse interests and experiences contribute to a more creative and holistic approach to problem-solving in technology.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact CTA -->
+<section class="contact-cta py-5 bg-primary text-white text-center">
+    <div class="container">
+        <h2 class="mb-3">Like what you see?</h2>
+        <p class="lead mb-4">I'm always open to discussing new projects or opportunities.</p>
+        <a href="{% url 'code_portfolio:contact' %}" class="btn btn-light btn-lg">Get in Touch</a>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Timeline styling */
+    .timeline {
+        position: relative;
+        padding-left: 30px;
+    }
+    
+    .timeline::before {
+        content: '';
+        position: absolute;
+        left: 10px;
+        top: 0;
+        height: 100%;
+        width: 2px;
+        background: #dee2e6;
+    }
+    
+    .timeline-item {
+        position: relative;
+        margin-bottom: 30px;
+    }
+    
+    .timeline-dot {
+        position: absolute;
+        left: -30px;
+        top: 15px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: var(--bs-primary);
+        z-index: 1;
+    }
+    
+    .timeline-content {
+        position: relative;
+    }
+</style>
+{% endblock %}

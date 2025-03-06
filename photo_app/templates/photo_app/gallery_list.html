@@ -1,0 +1,86 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<nav class="breadcrumb-nav" aria-label="breadcrumb">
+    <div class="breadcrumb-container">
+        <ol class="breadcrumb" itemscope itemtype="https://schema.org/BreadcrumbList" style="margin: 0; padding: 0; list-style: none; display: inline;">
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: inline;">
+                <a itemprop="item" href="{% url 'index' %}#portfolio" class="breadcrumb-link">
+                    <span itemprop="name">Home</span>
+                </a>
+                <meta itemprop="position" content="1" />
+                <span class="breadcrumb-separator">/</span>
+            </li>
+            {% if category.parent %}
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: inline;">
+                <a itemprop="item" href="{% url 'gallery_list' category.parent.name %}" class="breadcrumb-link">
+                    <span itemprop="name">{{ category.parent.get_name_display }}</span>
+                </a>
+                <meta itemprop="position" content="2" />
+                <span class="breadcrumb-separator">/</span>
+            </li>
+            {% endif %}
+            <li itemprop="itemListElement" itemscope itemtype="https://schema.org/ListItem" style="display: inline;">
+                <span itemprop="name" class="breadcrumb-current">{{ category.get_name_display }}</span>
+                <meta itemprop="position" content="{% if category.parent %}3{% else %}2{% endif %}" />
+            </li>
+        </ol>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="card-body">
+    <div id="cards">
+        {% if subcategories %}
+            {% for subcategory in subcategories %}
+                <a href="{% url 'gallery_list' subcategory.name %}" class="card-link">
+                    <div class="card">
+                        <div class="card-content">
+                            <div class="card-image">
+                                {% if subcategory.category_image %}
+                                    <img class="card-img inverted" src="{{ subcategory.category_image.url }}" alt="{{ subcategory.get_name_display }}">
+                                {% else %}
+                                    <img class="card-img inverted" src="{% static 'photo_app/img/default-cover.jpg' %}" alt="Default Cover">
+                                {% endif %}
+                            </div>
+                            <div class="card-info-wrapper">
+                                <div class="card-info-title">
+                                    <h3>{{ subcategory.get_name_display }}</h3>
+                                    {% if subcategory.intro_text %}
+                                        <h4>{{ subcategory.intro_text }}</h4>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            {% endfor %}
+        {% endif %}
+        {% for gallery in galleries %}
+            <a href="{% url 'photo_gallery' gallery.slug %}" class="card-link">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="card-image">
+                            {% if gallery.cover_photo %}
+                                <img class="card-img inverted" src="{{ gallery.cover_photo.url }}" alt="{{ gallery.name }}">
+                            {% else %}
+                                <img class="card-img inverted" src="{% static 'photo_app/img/default-cover.jpg' %}" alt="Default Cover">
+                            {% endif %}
+                        </div>
+                        <div class="card-info-wrapper">
+                            <div class="card-info-title">
+                                <h3>{{ gallery.name }}</h3>
+                                {% if gallery.gallery_text %}
+                                    <h4>{{ gallery.gallery_text }}</h4>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

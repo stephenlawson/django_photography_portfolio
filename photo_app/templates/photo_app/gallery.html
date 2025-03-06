@@ -1,0 +1,255 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+{% block content %}
+<div class="gallery-container">
+    <div class="gallery-header">
+        <div class="top-row">
+            <h1>{{ user.username|title }}'s Gallery</h1>
+            <div id="gallery-summary">
+                <span id="total-likes">Total Likes: {{ total_likes }}</span>
+                <span id="total-comments">Total Comments: {{ total_comments }}</span>
+            </div>
+        </div>
+        <div class="bottom-row">
+            <a id="download-btn" href="#" onclick=downloadImages() title="Download Selected Gallery Images">
+                <i class="fas fa-download"></i>
+                <span id="download-btn-text">Download All Images ({{ total_size_mb }})</span>
+            </a>
+        </div>
+    </div>
+    <div class="photo-grid">
+        {% for photo in photos %}
+        <div class="photo-item">
+            {% csrf_token %}
+            <input type="checkbox" class="photo-checkbox" value="{{ photo.id }}">
+            <div>
+                <i class="photo-overlay">
+                    <div class="photo-info">
+                        <div class="likes">
+                            <span class="like-icon {% if photo.is_liked %}liked{% endif %}">
+                                {% if photo.is_liked %}
+                                    <i class="fas fa-heart"></i>
+                                {% else %}
+                                    <i class="far fa-heart"></i>
+                                {% endif %}
+                            </span>
+                        </div>
+                        <div class="comments">
+                            <span class="comment-count">{{ photo.comments.count }}</span>
+                            <span class="comment-icon">&#128172;</span>
+                        </div>
+                    </div>
+                </i>
+                <img class="photo-thumbnail inverted" src="{{ photo.image.url }}" alt="{{ photo.id }}" data-src="{{ photo.id }}" data-liked="{{ photo.is_liked }}">
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!-- Loading overlay -->
+<div id="loading-overlay">
+    <div class="loader"></div>
+</div>
+
+<div id="photo-modal" class="photo-preview-container">
+    <div class="photo-modal-content">
+        <div id="photo-count" class="photo-count"></div>
+        <span id="prev-photo" class="photo-nav">&#8249;</span> <!-- Left arrow for previous photo -->
+        <span id="photo-modal-close">&times;</span>
+        <img id="photo-modal-img" class="photo-preview inverted">
+        <span id="next-photo" class="photo-nav">&#8250;</span> <!-- Right arrow for next photo -->
+        <div class="photo-details">
+            <div class="like-download">
+                <div class="likes">
+                    <button id="like-button" class="photo-like">
+                        <i id="like-icon" class="far fa-heart"></i>
+                    </button>
+                </div>
+                <div class="download">
+                    <a href="#" id="download-photo" title="Download Image">
+                        <i class="fas fa-download"></i> <!-- Font Awesome download icon -->
+                    </a>
+                </div>
+            </div>
+            <div class="comments">
+                <div id="comment-section"></div>
+                <form id="comment-form">
+                    {% csrf_token %}
+                    <input type="text" id="comment-input" name="comment" placeholder="Leave a comment">
+                    <input type="submit" value="Post Comment">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function updateDownloadButtonText() {
+        var checkboxes = document.querySelectorAll('.photo-checkbox');
+        var downloadBtnSpan = document.getElementById('download-btn-text');
+        var anyChecked = false;
+
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                anyChecked = true;
+            }
+        });
+
+        if (anyChecked) {
+            downloadBtnSpan.innerText = 'Download Selected Photos';
+        } else {
+            downloadBtnSpan.innerText = 'Download All Images ({{ total_size_mb }})';
+        }
+    }
+    
+    
+    function downloadImages() {
+        // Show loading indicator
+        document.getElementById('loading-overlay').style.display = 'flex';
+
+        var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        // Get the selected photo IDs
+        var selectedPhotos = [];
+        var checkboxes = document.querySelectorAll('.photo-checkbox');
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                selectedPhotos.push(checkbox.value);
+            }
+        });
+
+        console.log("Selected Photo IDs:", selectedPhotos);
+
+        // Check if any images are selected
+        if (selectedPhotos.length > 0) {
+            // Make AJAX request to download selected images
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Hide loading indicator
+                        document.getElementById('loading-overlay').style.display = 'none';
+
+                        // Create a blob object with the zip file data
+                        var blob = new Blob([xhr.response], { type: 'application/zip' });
+
+                        // Create a temporary URL for the blob
+                        var url = window.URL.createObjectURL(blob);
+
+                        // Create a temporary link element
+                        var downloadLink = document.createElement('a');
+                        downloadLink.href = url;
+                        downloadLink.download = '{{ user.username }}_selected_images.zip';
+
+                        // Append the link to the body and trigger the download
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+
+                        // Clean up by revoking the temporary URL and removing the link element
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(downloadLink);
+                    }
+                }
+            };
+            xhr.open('POST', "{% url 'download_selected_images' %}", true);
+            xhr.responseType = 'arraybuffer';
+            xhr.setRequestHeader('Content-Type', 'application/json');
+            xhr.setRequestHeader('X-CSRFToken', csrftoken);  
+            xhr.send(JSON.stringify({ selected_photos: selectedPhotos }));
+        } else {
+            // Make AJAX request to download all images
+            var xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === XMLHttpRequest.DONE) {
+                    if (xhr.status === 200) {
+                        // Hide loading indicator
+                        document.getElementById('loading-overlay').style.display = 'none';
+
+                        // Create a blob object with the zip file data
+                        var blob = new Blob([xhr.response], { type: 'application/zip' });
+
+                        // Create a temporary URL for the blob
+                        var url = window.URL.createObjectURL(blob);
+
+                        // Create a temporary link element
+                        var downloadLink = document.createElement('a');
+                        downloadLink.href = url;
+                        downloadLink.download = '{{ user.username }}_all_images.zip';
+
+                        // Append the link to the body and trigger the download
+                        document.body.appendChild(downloadLink);
+                        downloadLink.click();
+
+                        // Clean up by revoking the temporary URL and removing the link element
+                        window.URL.revokeObjectURL(url);
+                        document.body.removeChild(downloadLink);
+                    }
+                }
+            };
+            xhr.open('GET', "{% url 'download_all_images' %}", true);
+            xhr.responseType = 'arraybuffer'; // Set responseType to 'arraybuffer' to get binary data
+            xhr.send();
+        }
+    }
+
+    // Event listener to update download button text when checkboxes are clicked
+    var checkboxes = document.querySelectorAll('.photo-checkbox');
+    checkboxes.forEach(function(checkbox) {
+        checkbox.addEventListener('click', updateDownloadButtonText);
+    });
+</script>
+<script>
+document.getElementById('download-photo').addEventListener('click', function(event) {
+    // Prevent the default action (opening a new window)
+    event.preventDefault();
+
+    // Show loading indicator
+    document.getElementById('loading-overlay').style.display = 'flex';
+
+    // Get the URL and alt of the image
+    var imageUrl = document.getElementById('photo-modal-img').src;
+    var altText = document.getElementById('photo-modal-img').alt;
+
+    // Extract the image ID from the URL
+    var imageId = altText.trim();
+
+    // Generate the download file name with alt text
+    var fileName = (altText.trim() !== '') ? altText.trim() + '.jpg' : 'photo.jpg';
+
+    // Create a new XMLHttpRequest object
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', "{% url 'download_single_image' %}?image_id=" + imageId, true);
+    xhr.responseType = 'blob'; // Set responseType to 'blob' to get binary data
+
+    // When the request is completed
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            // Hide loading indicator
+            document.getElementById('loading-overlay').style.display = 'none';
+
+            // Create a blob object with the image data
+            var blob = xhr.response;
+
+            // Create a temporary URL for the blob
+            var url = window.URL.createObjectURL(blob);
+
+            // Create a temporary link element
+            var downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = fileName;
+
+            // Append the link to the body and trigger the download
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+
+            // Clean up by revoking the temporary URL and removing the link element
+            window.URL.revokeObjectURL(url);
+            document.body.removeChild(downloadLink);
+        }
+    };
+
+    // Send the XMLHttpRequest
+    xhr.send();
+});
+
+</script>
+{% endblock content %}

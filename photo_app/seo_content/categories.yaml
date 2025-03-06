@@ -1,0 +1,66 @@
+# seo_content/categories.yaml
+wedding:
+  meta:
+    title: "Richmond Wedding Photographer | Natural Wedding Photography"
+    description: "Authentic Richmond wedding photography with a natural, timeless style. Serving Virginia weddings with professional photography services."
+    keywords: "richmond wedding photographer, virginia wedding photography, wedding photos richmond va, natural wedding photography, timeless wedding photos, richmond wedding pictures, professional wedding photographer richmond"
+  content:
+    heading: "Richmond Wedding Photography"
+    intro: "Capturing your special day with authentic, timeless images"
+
+portrait:
+  meta:
+    title: "Richmond Portrait Photographer | Professional Portrait Photography"
+    description: "Professional portrait photography in Richmond VA. Natural light and studio portraits for individuals, families, and businesses."
+    keywords: "richmond portrait photographer, professional portraits richmond va, studio portraits richmond, natural light portraits, business headshots richmond, professional headshots virginia"
+  content:
+    heading: "Portrait Photography in Richmond"
+    intro: "Professional portraits that capture your authentic self"
+
+graduation:
+  meta:
+    title: "Richmond Graduation Photographer | VCU & UR Graduation Photos"
+    description: "Professional graduation photography in Richmond. Specializing in VCU, University of Richmond, and Virginia Union graduation sessions."
+    keywords: "graduation photographer richmond, vcu graduation photos, university of richmond graduation pictures, virginia union graduation photographer, college graduation photos richmond, senior pictures richmond va"
+  content:
+    heading: "Graduation Photography"
+    intro: "Celebrating your academic achievements"
+
+engagement:
+  meta:
+    title: "Richmond Engagement Photographer | Engagement Photo Sessions"
+    description: "Richmond engagement photography that tells your love story. Natural, romantic engagement photos in beautiful Virginia locations."
+    keywords: "richmond engagement photographer, engagement photos richmond va, couples photography richmond, romantic engagement pictures, virginia engagement photographer, engagement photo locations richmond"
+
+film:
+  meta:
+    title: "Film Photography Richmond VA | Analog Photography Services"
+    description: "Professional film photography in Richmond. Authentic analog images shot on 35mm and medium format film."
+    keywords: "film photography richmond, analog photographer virginia, 35mm film photos, medium format photography richmond, professional film photographer, film portrait photography richmond"
+
+event:
+  meta:
+    title: "Richmond Event Photographer | Professional Event Photography"
+    description: "Professional event photography in Richmond VA. Capturing corporate events, galas, conferences, parties, and social gatherings with attention to detail."
+    keywords: "event photographer richmond, corporate event photography va, gala photographer richmond, conference photography virginia, party photographer richmond, social event photography"
+  content:
+    heading: "Event Photography in Richmond"
+    intro: "Professional coverage for all your special events"
+
+couple:
+  meta:
+    title: "Richmond Couples Photographer | Natural Couple Photography"
+    description: "Professional couples photography in Richmond. Capturing authentic moments for anniversaries, date nights, and relationship milestones."
+    keywords: "couples photographer richmond, anniversary photos richmond va, relationship photographer virginia, date night photography, couples photoshoot richmond, romantic photography richmond"
+  content:
+    heading: "Couples Photography"
+    intro: "Capturing your connection and chemistry naturally"
+
+family:
+  meta:
+    title: "Richmond Family Photographer | Natural Family Portraits"
+    description: "Natural family photography in Richmond VA. Outdoor and studio family portraits that capture genuine connections and real moments."
+    keywords: "family photographer richmond, family portraits virginia, outdoor family photos richmond, studio family portraits va, family photography richmond, family picture photographer"
+  content:
+    heading: "Family Photography in Richmond"
+    intro: "Creating timeless family memories through photography"

@@ -1,0 +1,196 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+
+{% block content %}
+<!-- Cover Photo Section -->
+<header id="wedding-header" class="vh-100 flex inverted">
+    <div class="container">
+        <div class="header-content">
+            <h1>Second Shooter<br>Photography Services</h1>
+            <h3>Richmond VA</h3>
+        </div>
+    </div>
+</header>
+
+<!-- Introduction Section -->
+<section class="about py-7">
+    <div class="container">
+        <div class="about-content">
+            <p class="lead about-text">
+                {{ page_content.page_content }}
+            </p>
+            <div class="profile-photo-container">
+                <img class="profile-photo inverted" src="{% static 'photo_app/img/about-photo-second-shooter.jpg' %}" alt="Stephen Lawson Profile Photo">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Equipment Section -->
+<section class="about py-7">
+    <div class="container">
+        <div class="title">
+            <h2>My Equipment</h2>
+        </div>
+        <div class="equipment-intro">
+            <p class="lead">
+                {{ page_content.page_content5 }}
+            </p>
+        </div>
+        
+        <!-- Equipment Cards Grid -->
+        <div class="equipment-grid">
+            <!-- Camera Bodies Card -->
+            <div class="equipment-card">
+                <div class="card-header">
+                    <h3>Camera Bodies</h3>
+                </div>
+                <div class="card-content">
+                    {% for type, bodies in equipment.cameras.items %}
+                        {% if 'Bodies' in type %}
+                            <div class="subcategory">
+                                <h4>{{ type }}</h4>
+                                <ul>
+                                    {% for camera in bodies %}
+                                        <li>{{ camera }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Lenses Card -->
+            <div class="equipment-card">
+                <div class="card-header">
+                    <h3>Lenses</h3>
+                </div>
+                <div class="card-content">
+                    {% for type, lenses in equipment.cameras.items %}
+                        {% if 'Mount' in type %}
+                            <div class="subcategory">
+                                <h4>{{ type }}</h4>
+                                <ul>
+                                    {% for lens in lenses %}
+                                        <li>{{ lens }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <!-- Lighting Card -->
+            <div class="equipment-card">
+                <div class="card-header">
+                    <h3>Lighting Equipment</h3>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        {% for item in equipment.lighting %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Additional Equipment Card -->
+            <div class="equipment-card">
+                <div class="card-header">
+                    <h3>Additional Equipment</h3>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        {% for item in equipment.accessories %}
+                            <li>{{ item }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="py-7">
+    <div class="container second-shooter-form-section">
+        <div class="title">
+            <h2>get in touch</h2>
+        </div>
+        <div class="contact-intro">
+            <p class="lead">
+                {{ page_content.page_content6 }}
+            </p>
+        </div>
+        <div class="contact-content">
+            <form id="myForm" method="post" class="second-shooter-form">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    {{ form.first_name.label_tag }}
+                    {{ form.first_name }}
+                    {{ form.first_name.errors }}
+                </div>
+            
+                <div class="form-group">
+                    {{ form.last_name.label_tag }}
+                    {{ form.last_name }}
+                    {{ form.last_name.errors }}
+                </div>
+            
+                <div class="form-group">
+                    {{ form.email.label_tag }}
+                    {{ form.email }}
+                    {{ form.email.errors }}
+                </div>
+            
+                <div class="form-group">
+                    {{ form.phone.label_tag }}
+                    {{ form.phone }}
+                    {{ form.phone.errors }}
+                </div>
+            
+                <div class="form-group">
+                    {{ form.service.label_tag }}
+                    {{ form.service }}
+                    {{ form.service.errors }}
+                </div>
+            
+                <div class="form-group">
+                    {{ form.date.label_tag }}
+                    {{ form.date }}
+                    {{ form.date.errors }}
+                </div>
+            
+                <div class="form-group">
+                    {{ form.location.label_tag }}
+                    {{ form.location }}
+                    {{ form.location.errors }}
+                </div>
+            
+                <div class="form-group">
+                    {{ form.additional_info.label_tag }}
+                    {{ form.additional_info }}
+                    {{ form.additional_info.errors }}
+                </div>
+            
+                <div class="form-group">
+                    {{ form.captcha.label_tag }}
+                    {{ form.captcha }}
+                    {{ form.captcha.errors }}
+                </div>
+            
+                <button type="submit">
+                    <div class="button_base b03_skewed_slide_in">
+                        <div>Submit</div>
+                        <div></div>
+                        <div>Submit</div>
+                    </div>
+                </button>
+            </form>
+        </div>
+    </div>
+</section>
+{% endblock %}

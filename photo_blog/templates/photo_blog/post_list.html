@@ -1,0 +1,50 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+
+{% block head %}
+    <title>Photography Blog | Stephen Lawson Photography Richmond VA</title>
+    <meta name="description" content="Photography tips, stories, and insights from Richmond VA professional photographer Stephen Lawson.">
+    
+    <!-- OpenGraph tags -->
+    <meta property="og:title" content="Photography Blog | Stephen Lawson Photography">
+    <meta property="og:description" content="Photography tips, stories, and insights from Richmond VA">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    
+    <!-- Schema data -->
+    {% if schema_data %}
+    <script type="application/ld+json">
+        {{ schema_data|safe }}
+    </script>
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="card-body">
+  <div id="cards">
+    {% for photo_blog in photo_blogs %}
+        <div class="card">
+          <a href="{% url 'photo_blog:photo_blog' slug=photo_blog.slug %}" class="card-link">
+          <div class="card-content">
+            <div class="inverted card-image">
+              <img class="card-img" src="{{ photo_blog.image.url }}" alt="{{ photo_blog.title }}">
+            </div>
+            <div class="card-info-wrapper">
+              <div class="card-info">
+                <i class="fa-duotone fa-apartment"></i>
+                <div class="card-info-title">
+                  <h3>{{photo_blog.title}}</h3>  
+                  <h4>{{photo_blog.sub_title}}</h4>
+                </div>    
+              </div>
+            </div>
+          </div>
+          </a>
+        </div>
+    {% empty %}
+      <h3>No photo_blogs found...</h3>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}
+  

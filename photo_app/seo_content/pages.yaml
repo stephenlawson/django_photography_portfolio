@@ -1,0 +1,68 @@
+# seo_content/pages.yaml
+home:
+  meta:
+    title: "Richmond Wedding & Portrait Photographer | Stephen Lawson Photography"
+    description: "Richmond's premier wedding and portrait photographer. Natural, timeless photography capturing your special moments in Virginia."
+    keywords: "richmond photographer, stephen lawson photography, wedding photographer richmond, portrait photographer richmond va, professional photographer virginia, richmond photography services"
+  og:
+    title: "Stephen Lawson Photography | Richmond VA"
+    description: "Professional photography services in Richmond, Virginia"
+  schema:
+    faq:
+      - question: "What areas do you serve?"
+        answer: "Based in Richmond, serving all of Virginia including Charlottesville and Virginia Beach"
+
+portfolio:
+  meta:
+    title: "Photography Portfolio | Richmond VA Photographer"
+    description: "View our portfolio of weddings, portraits, and events across Virginia. Professional photography with a natural, authentic style."
+    keywords: "richmond photography portfolio, virginia photographer portfolio, wedding photography examples, portrait photography samples, event photography portfolio, professional photo gallery richmond"
+  og:
+    title: "Photography Portfolio | Stephen Lawson"
+    description: "Browse our collection of wedding, portrait, and event photography"
+
+wedding:
+  meta:
+    title: "Richmond Wedding Photographer | Natural Wedding Photography"
+    description: "Authentic wedding photography in Richmond and Central Virginia. Capturing your special day with a natural, timeless style."
+
+second-shooter:
+  meta:
+    title: "Second Shooter Photography Services Richmond VA | Stephen Lawson Photography"
+    description: "Experienced second shooter with 10 years of photography expertise. Available for weddings and events in Richmond, Northern VA, and DC area. Professional Sony equipment and film photography capabilities."
+    keywords: "second shooter richmond, wedding second shooter va, photography assistant richmond, backup photographer virginia, wedding photography assistant, professional second shooter richmond, experienced photographer assistant"
+  og:
+    title: "Second Shooter Photography Services | Stephen Lawson Photography"
+    description: "Professional second shooter for weddings and events in Richmond and surrounding areas. 10 years of experience with both digital and film photography."
+  content:
+    heading: "Professional Second Shooter Services"
+    intro: "Experienced photographer available as second shooter for weddings and events"
+  schema:
+    "@type": "PhotographyService"
+    serviceType: "Second Shooter Photography"
+    areaServed: 
+      "@type": "GeoCircle"
+      geoMidpoint:
+        "@type": "GeoCoordinates"
+        latitude: 37.5407
+        longitude: -77.4360
+      geoRadius: "150 mi"
+    availableAtOrFrom:
+      "@type": "Place"
+      address:
+        "@type": "PostalAddress"
+        addressLocality: "Richmond"
+        addressRegion: "VA"
+        addressCountry: "US"
+
+services:
+  meta:
+    title: "Richmond Photography Services & Packages | Stephen Lawson Photography"
+    description: "Professional photography services in Richmond VA including weddings, portraits, events, and specialty photography. View our packages and pricing."
+    keywords: "richmond photography services, photography packages richmond va, professional photographer pricing, wedding photography packages, portrait photography services, event photography richmond"
+  og:
+    title: "Photography Services & Packages | Stephen Lawson"
+    description: "Professional photography services for all your needs in Richmond, Virginia"
+  content:
+    heading: "Photography Services"
+    intro: "Professional photography tailored to your needs"

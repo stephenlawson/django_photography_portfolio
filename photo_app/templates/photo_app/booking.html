@@ -1,0 +1,67 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+
+{% block content %}
+<section class="booking-section">
+    <div class="container">
+        <h1 class="text-center">Photography Services & Pricing</h1>
+        <div class="booking-grid">
+            {% for category in categories %}
+            <div class="category-section">
+                <h2 class="category-title">{{ category.name }}</h2>
+                {% for service in category.services.all %}
+                <div class="service-card">
+                    {% if service.header_image %}
+                    <div class="service-image">
+                        <img src="{{ service.header_image.url }}" alt="{{ service.name }}">
+                    </div>
+                    {% endif %}
+                    <div class="service-header">
+                        <h3 class="service-name">{{ service.name }}</h3>
+                        <span class="service-price">
+                            {% if service.price_varies %}
+                                {{ service.price_display }}
+                            {% else %}
+                                ${{ service.base_price }}
+                            {% endif %}
+                        </span>
+                    </div>
+                    <p class="service-description">{{ service.description }}</p>
+                    <div class="service-meta">
+                        <div class="duration">
+                            <i class="far fa-clock"></i>
+                            <span>{{ service.duration }}</span>
+                        </div>
+                    </div>
+
+                    {% if service.addons.exists %}
+                    <div class="add-ons">
+                        <h4>Available Add-ons:</h4>
+                        <ul>
+                        {% for addon in service.addons.all %}
+                            <li>{{ addon.name }} - ${{ addon.price }}{% if addon.unit %} {{ addon.unit }}{% endif %}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    {% if service.price_tiers.exists %}
+                    <div class="price-tiers">
+                        <h4>Pricing Tiers:</h4>
+                        <ul>
+                        {% for tier in service.price_tiers.all %}
+                            <li>{{ tier.name }}: ${{ tier.price }}{% if tier.condition %} ({{ tier.condition }}){% endif %}</li>
+                        {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+
+                    <a href="https://squareup.com/appointments/book/ue7wdul065wypq/LYM4DW6BXAXAY/start" class="book-btn">Book Now</a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

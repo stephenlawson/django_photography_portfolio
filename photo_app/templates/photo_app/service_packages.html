@@ -1,0 +1,89 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+
+{% block breadcrumb %}
+<nav class="breadcrumb-nav">
+    <div class="breadcrumb-container">
+        <a href="{% url 'index' %}#portfolio" class="breadcrumb-link">Home</a>
+        <span class="breadcrumb-separator">/</span>
+        <a href="{% url 'services' %}" class="breadcrumb-link">Services</a>
+        <span class="breadcrumb-separator">/</span>
+        <span class="breadcrumb-current">{{ category.display_name }}</span>
+    </div>
+</nav>
+{% endblock %}
+
+{% block content %}
+<section class="packages-section py-7">
+    <div class="container">
+        <div class="packages-header">
+            <h1 class="text-center">{{ category.display_name }} Packages</h1>
+            <p class="text-center lead">{{ category.intro_text }}</p>
+        </div>
+        
+        <div class="packages-grid">
+            {% for service in services %}
+            <a href="{% if service.name == 'Cherry Blossom Mini Sessions' %}{% url 'cherry_blossom_booking' %}{% else %}{% url 'contact_with_package' service.category.name service.name|slugify %}{% endif %}" class="package-card-link">
+                <div class="package-card">
+                    {% if service.package_image %}
+                    <div class="package-image">
+                        <img src="{{ service.package_image.url }}" alt="{{ service.name }}" class="package-img inverted">
+                    </div>
+                    {% endif %}
+                    <div class="package-content">
+                        <h2 class="package-title">{{ service.name }}</h2>
+                        <div class="package-price">
+                            {% if service.price_varies %}
+                                {{ service.price_display }}
+                            {% else %}
+                                ${{ service.base_price }}
+                            {% endif %}
+                        </div>
+                        <p class="package-description">{{ service.description|safe }}</p>
+                        
+                        <div class="package-details">
+                            <div class="duration">
+                                <i class="far fa-clock"></i>
+                                <span>{{ service.duration }}</span>
+                            </div>
+                            
+                            {% if service.addons.exists %}
+                            <div class="add-ons">
+                                <h4>Available Add-ons:</h4>
+                                <ul>
+                                {% for addon in service.addons.all %}
+                                    <li>{{ addon.name }} - ${{ addon.price }}{% if addon.unit %} {{ addon.unit }}{% endif %}</li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                            
+                            {% if service.price_tiers.exists %}
+                            <div class="price-tiers">
+                                <h4>Pricing Tiers:</h4>
+                                <ul>
+                                {% for tier in service.price_tiers.all %}
+                                    <li>{{ tier.name }}: ${{ tier.price }}{% if tier.condition %} ({{ tier.condition }}){% endif %}</li>
+                                {% endfor %}
+                                </ul>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <span class="book-btn">{% if service.name == 'Cherry Blossom Mini Sessions' %}Book Now{% else %}Contact About This Service{% endif %}</span>
+                    </div>
+                </div>
+            </a>
+            {% endfor %}
+        </div>
+        <!-- Film Photography Callout -->
+        <div class="film-callout">
+            <div class="film-callout-content">
+                <h3>Enhance Your Session with Film Photography</h3>
+                <p>Add a timeless, artistic dimension to your photography experience with our film photography options.</p>
+                <a href="/photo_blog/the-timeless-magic-of-film-photography/" class="film-btn">Learn About Film Photography →</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

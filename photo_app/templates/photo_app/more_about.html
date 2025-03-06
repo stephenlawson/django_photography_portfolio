@@ -1,0 +1,252 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+{% block content %}
+<style>
+.gallery-container {
+    width: 100%;
+    overflow-x: hidden;
+    position: relative;
+}
+
+.gallery {
+    display: flex;
+    width: auto;
+    transition: transform 0.3s ease; /* Decrease transition time for faster scrolling */
+    margin-left: -10px; /* Add negative margin to space the images slightly */
+}
+
+.gallery img {
+    width: calc(33vw - 20px); /* Adjust width to account for margin */
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin-right: 10px; /* Add margin between images */
+}
+.gallery-scatter-container {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* Adjust height as needed */
+    overflow: hidden; /* Hide overflow to hide images until they start falling into place */
+
+}
+
+.gallery-scatter-container.show {
+    opacity: 1; /* Change opacity to make the container visible */
+}
+
+.gallery-scatter {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.gallery-scatter img {
+    position: absolute;
+    opacity: 0; /* Initially invisible */
+    width: 80px; /* Adjust size as needed */
+    height: auto;
+    border-radius: 15px; /* Adjust border radius as needed */
+}
+
+/* Define custom animation keyframes for each image */
+@keyframes moveInFromTop {
+    0% {
+        opacity: 0; /* Initially invisible */
+        transform: translateY(-100vh) rotate(180deg); /* Move from top outward */
+    }
+    50% {
+        opacity: 1; /* Change opacity to make the container visible */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg); /* Move inward */
+    }
+}
+
+@keyframes moveInFromBottom {
+    0% {
+        opacity: 0; /* Initially invisible */
+        transform: translateY(100vh) rotate(180deg); /* Move from bottom outward */
+    }
+    50% {
+        opacity: 1; /* Change opacity to make the container visible */
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg); /* Move inward */
+    }
+}
+
+@keyframes moveInFromLeft {
+    0% {
+        opacity: 0; /* Initially invisible */
+        transform: translateX(-100vw) rotate(180deg); /* Move from left outward */
+    }
+    50% {
+        opacity: 1; /* Change opacity to make the container visible */
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotate(0deg); /* Move inward */
+    }
+}
+
+@keyframes moveInFromRight {
+    0% {
+        opacity: 0; /* Initially invisible */
+        transform: translateX(100vw) rotate(180deg); /* Move from right outward */
+    }
+    50% {
+        opacity: 1; /* Change opacity to make the container visible */
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0) rotate(0deg); /* Move inward */
+    }
+}
+
+/* Apply custom animation to each image */
+.gallery-scatter img:nth-child(1) { 
+    animation: moveInFromTop 1s ease 0.5s forwards; 
+    top: 20%; 
+    left: 10%; 
+    width: 200px; /* Adjust the width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.gallery-scatter img:nth-child(2) { 
+    animation: moveInFromBottom 1s ease 1s forwards; 
+    top: 50%; 
+    left: 30%; 
+    width: 200px; /* Adjust the width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.gallery-scatter img:nth-child(3) { 
+    animation: moveInFromLeft 1s ease 1.5s forwards; 
+    top: 10%; 
+    left: 60%; 
+    width: 200px; /* Adjust the width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.gallery-scatter img:nth-child(4) { 
+    animation: moveInFromRight 1s ease 2s forwards; 
+    top: 70%; 
+    left: 40%; 
+    width: 200px; /* Adjust the width */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.gallery-scatter img:nth-child(5) { 
+    animation: moveInFromBottom 1s ease 2.5s forwards; 
+    top: 40%; 
+    left: 80%; 
+    width: 200px; /* Adjust the width */
+    height: auto; /* Maintain aspect ratio */
+}
+</style>
+<section id = "about" class = "about py-7">
+    <div class = "container">
+        <div class = "about-content grid">
+            <div class = "about-left">
+                <div class="blurred-img blurred-img-about">
+                    <img class="inverted" src = "{% static 'photo_app/img/about-pic.jpg' %}" alt = "about-pic">
+                </div>
+            </div>
+            <div class = "about-right">
+                <div class = "title">
+                    <h2>{{ page_content.title }}</h2>
+                </div>
+                <p class = "lead">
+                    {{ page_content.page_content }}
+                </p>
+                <a href = "#work" class = "btn-down">
+                    <i class = "fas fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="gallery-container">
+    <div class="gallery" id="gallery">
+        <img src="{% static 'photo_app/test_photos/image1.jpg' %}" alt="Image 1">
+        <img src="{% static 'photo_app/test_photos/image2.jpg' %}" alt="Image 2">
+        <img src="{% static 'photo_app/test_photos/image3.jpg' %}" alt="Image 3">
+        <img src="{% static 'photo_app/test_photos/image4.jpg' %}" alt="Image 4">
+        <img src="{% static 'photo_app/test_photos/image5.jpg' %}" alt="Image 5">
+        <img src="{% static 'photo_app/test_photos/image1.jpg' %}" alt="Image 1">
+        <img src="{% static 'photo_app/test_photos/image2.jpg' %}" alt="Image 2">
+        <img src="{% static 'photo_app/test_photos/image3.jpg' %}" alt="Image 3">
+        <img src="{% static 'photo_app/test_photos/image4.jpg' %}" alt="Image 4">
+        <img src="{% static 'photo_app/test_photos/image5.jpg' %}" alt="Image 5">
+        <img src="{% static 'photo_app/test_photos/image1.jpg' %}" alt="Image 1">
+        <img src="{% static 'photo_app/test_photos/image2.jpg' %}" alt="Image 2">
+        <img src="{% static 'photo_app/test_photos/image3.jpg' %}" alt="Image 3">
+        <img src="{% static 'photo_app/test_photos/image4.jpg' %}" alt="Image 4">
+        <img src="{% static 'photo_app/test_photos/image5.jpg' %}" alt="Image 5">
+    </div>
+</div>
+<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+
+The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+
+Where can I get some?
+There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+<p>Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from a Lorem Ipsum passage, and going through the cites of the word in classical literature, discovered the undoubtable source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of "de Finibus Bonorum et Malorum" (The Extremes of Good and Evil) by Cicero, written in 45 BC. This book is a treatise on the theory of ethics, very popular during the Renaissance. The first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..", comes from a line in section 1.10.32.
+
+The standard chunk of Lorem Ipsum used since the 1500s is reproduced below for those interested. Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English versions from the 1914 translation by H. Rackham.
+
+Where can I get some?
+There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
+<div class="gallery-scatter-container">
+    <div class="gallery-scatter" id="gallery">
+        <img src="{% static 'photo_app/test_photos/image1.jpg' %}" alt="Image 1">
+        <img src="{% static 'photo_app/test_photos/image2.jpg' %}" alt="Image 2">
+        <img src="{% static 'photo_app/test_photos/image3.jpg' %}" alt="Image 3">
+        <img src="{% static 'photo_app/test_photos/image4.jpg' %}" alt="Image 4">
+        <img src="{% static 'photo_app/test_photos/image5.jpg' %}" alt="Image 5">
+    </div>
+</div>
+
+<div class='portfolio-embed' style='position: relative; padding-bottom: 50%; height: 0; overflow: hidden;'>
+    <iframe src='https://adobe.ly/4aoqHpe' frameborder='0' style='width:100%; height:100%; position: absolute; top:0; left:0;'></iframe>
+</div>
+<div class='lr_embed' style='position: relative; padding-bottom: 50%; height: 0; overflow: hidden;'><iframe id='iframe' src='https://lightroom.adobe.com/embed/shares/b5e11f011e0a44f7872c624f63679f72/grid?background_color=%232D2D2D&color=%23999999' frameborder='0'style='width:100%; height:100%; position: absolute; top:0; left:0;' ></iframe>
+</div>
+<img src="https://adobe.ly/4aoqHpe" alt="Description of Image">
+  
+  
+
+<script>
+window.addEventListener('scroll', function() {
+    const gallery = document.getElementById('gallery');
+    const scrollY = window.scrollY;
+    const galleryWidth = gallery.offsetWidth;
+    const imageWidth = galleryWidth / 5; // Each image occupies 20% of the width
+
+    // Calculate the position of the gallery based on the scroll position
+    const galleryPosition = (scrollY / window.innerHeight) * imageWidth * 3;
+
+    // Move the gallery left or right based on the scroll direction
+    gallery.style.transform = `translateX(-${galleryPosition}px)`;
+});
+
+window.addEventListener('scroll', function() {
+    var gallery = document.querySelector('.gallery-scatter-container');
+    var galleryTop = gallery.getBoundingClientRect().top;
+    var windowHeight = window.innerHeight;
+
+    if (galleryTop < windowHeight) {
+        var images = document.querySelectorAll('.gallery-scatter img');
+        images.forEach(function(image) {
+            image.style.opacity = '1';
+        });
+    }
+});
+
+</script>
+{% endblock content %}
+

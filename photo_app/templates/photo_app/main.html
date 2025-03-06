@@ -1,0 +1,372 @@
+{% load static %}
+<!DOCTYPE html>
+<html class="main-container" lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NBH139DFNB"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-NBH139DFNB');
+    </script>
+    <!-- Google Tag Manager -->
+    <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer','GTM-KRSXSD6D');
+    </script>
+    <!-- End Google Tag Manager -->
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}" />
+    <!-- Pinterest tag -->
+    <meta name="p:domain_verify" content="29a570618827d3c327c1c83247a91253"/>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Open Graph meta tags -->
+    {% if photo_blog %}
+    <!-- Blog Post Meta Tags -->
+    <title>{{ photo_blog.get_meta_title }}</title>
+    <meta name="description" content="{{ photo_blog.get_meta_description }}">
+    <meta name="keywords" content="{{ photo_blog.meta_keywords }}">
+    <meta property="og:title" content="{{ photo_blog.title }}">
+    <meta property="og:description" content="{{ photo_blog.sub_title }}">
+    <meta property="og:image" content="{{ photo_blog.image.url }}">
+    <meta property="og:url" content="{{ request.build_absolute_uri }}">
+    <meta property="og:type" content="article">
+    {% elif seo %}
+        <!-- SEO Meta Tags -->
+        <title>{{ seo.meta.title }}</title>
+        <meta name="description" content="{{ seo.meta.description }}">
+        {% if seo.meta.keywords %}
+        <meta name="keywords" content="{{ seo.meta.keywords }}">
+        {% endif %}
+        <meta property="og:title" content="{{ seo.meta.og_title|default:seo.meta.title }}">
+        <meta property="og:description" content="{{ seo.meta.og_description|default:seo.meta.description }}">
+        <meta property="og:image" content="{% static 'photo_app/img/header-banner.jpg' %}">
+        <meta property="og:url" content="{{ request.build_absolute_uri }}">
+        <meta property="og:type" content="{% if photo_gallery %}article{% else %}website{% endif %}">
+        {% if seo.structured_data %}
+        <script type="application/ld+json">
+            {{ seo.structured_data|safe }}
+        </script>
+        {% endif %}
+    {% else %}
+        <!-- Fallback Meta Tags -->
+        <title>Stephen Lawson Photography | Richmond VA Photographer</title>
+        <meta name="description" content="Professional photography services in Richmond, Virginia">
+        <meta property="og:title" content="Stephen Lawson Photography">
+        <meta property="og:description" content="Richmond Portrait and Wedding Photography">
+        <meta property="og:type" content="website">
+    {% endif %}
+
+    <!-- Common Meta Tags (always included) -->
+    <meta property="og:site_name" content="Stephen Lawson Photography">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:type" content="{% if photo_gallery %}article{% else %}website{% endif %}">
+    {% if photo_gallery %}
+        <meta property="article:published_time" content="{{ photo_gallery.date|date:'c' }}">
+        <meta property="article:modified_time" content="{{ photo_gallery.date|date:'c' }}">
+        <meta property="article:author" content="Stephen Lawson">
+        <meta property="article:section" content="{{ photo_gallery.category.get_name_display }}">
+    {% endif %}
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="{% if photo_gallery %}{{ photo_gallery.name }}{% else %}Stephen Lawson Photography{% endif %}">
+    <meta property="og:email" content="info@stephen.photography">
+    <link rel="canonical" href="{{ request.build_absolute_uri }}">
+    <meta name="author" content="Stephen Lawson">
+    <meta name="geo.region" content="US-VA">
+    <meta name="geo.placename" content="Richmond">
+    <meta name="geo.position" content="37.5331;-77.4287">
+    <meta name="ICBM" content="37.5331, -77.4287">
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "PhotographyBusiness",
+            "name": "Stephen Lawson Photography",
+            "image": "{% static 'photo_app/img/stephenlawsonphotographyfavicon.png' %}",
+            "logo": "{% static 'photo_app/img/stephenlawsonphotographyfavicon.png' %}",
+            "@id": "https://stephen.photography",
+            "url": "https://stephen.photography",
+            "email": "info@stephen.photography",
+            "priceRange": "$$",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "1001 E. Byrd St.",
+                "addressLocality": "Richmond",
+                "addressRegion": "VA",
+                "postalCode": "23219",
+                "addressCountry": "US"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 37.5331,
+                "longitude": -77.4287
+            },
+            "openingHoursSpecification": [
+                {
+                    "@type": "OpeningHoursSpecification",
+                    "dayOfWeek": [
+                        "Monday",
+                        "Tuesday",
+                        "Wednesday",
+                        "Thursday",
+                        "Friday",
+                        "Saturday",
+                        "Sunday"
+                    ],
+                    "opens": "09:00",
+                    "closes": "20:00"
+                }
+            ],
+            "sameAs": [
+                "https://www.instagram.com/stephenlawsonphotos/",
+                "https://www.facebook.com/people/Stephen-Lawson-Photography/100095105778407/",
+                "https://www.yelp.com/biz/stephen-lawson-photography-richmond",
+                "https://www.tiktok.com/@stephenlawsonphot",
+                "https://twitter.com/StephenL_Photos",
+                "https://www.threads.net/@stephenlawsonphotos",
+                "https://www.pinterest.com/stephenlawsonphotos/"
+            ],
+            "hasOfferCatalog": {
+                "@type": "OfferCatalog",
+                "name": "Photography Services",
+                "itemListElement": [
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Wedding Photography"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Portrait Photography"
+                        }
+                    },
+                    {
+                        "@type": "Offer",
+                        "itemOffered": {
+                            "@type": "Service",
+                            "name": "Event Photography"
+                        }
+                    }
+                ]
+            }
+        }
+    </script>
+    <!-- Favicons -->
+    <link
+        rel="apple-touch-icon"
+        sizes="223x223"
+        href="{% static 'photo_app/img/stephenlawsonphotographyfavicon.png' %}"
+    />
+    <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="{% static 'photo_app/img/stephenlawsonphotographyfavicon.png' %}"
+    />
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css" 
+    integrity="sha512-YWzhKL2whUzgiheMoBFwW8CKV4qpHQAEuvilg9FAn5VJUDwKZZxkJNuGM4XkWuk94WCrrwslk8yWNGmY1EduTA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+    <!-- Add Owl Carousel CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'photo_app/css/styles.css' %}">
+    <!-- Meta Pixel Code -->
+    <script>
+        !function(f,b,e,v,n,t,s)
+        {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+        n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+        if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+        n.queue=[];t=b.createElement(e);t.async=!0;
+        t.src=v;s=b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t,s)}(window, document,'script',
+        'https://connect.facebook.net/en_US/fbevents.js');
+        fbq('init', '1789098254879660');
+        fbq('track', 'PageView');
+        </script>
+        <noscript><img height="1" width="1" style="display:none"
+        src="https://www.facebook.com/tr?id=1789098254879660&ev=PageView&noscript=1"
+        /></noscript>
+    <!-- End Meta Pixel Code -->
+</head>
+<body>
+    <!-- Google Tag Manager (noscript) -->
+        <noscript>
+                <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KRSXSD6D" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+        </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+  <nav>
+      <div class="nav-center">
+          <!-- nav header -->
+          <div class="nav-header">
+              <a href = "{% url 'index' %}">
+                <img id="logo-image" src="{% static 'photo_app/img/stephenlawsonphotographyfavicon.png' %}" class="inverted logo" loading="lazy" alt="logo">
+              </a>
+              <a href="{% url 'index' %}">
+                <div class="logo">
+                    <h4 id="logo-text-1" class="logo-text">
+                        Stephen Lawson
+                    </h4>
+                    <h5 id="logo-text-2" class="logo-text">
+                        Photography
+                    </h5>
+                </div>
+              </a>
+              <div id="dark-mode-container">
+                <img id="dark-mode-icon" class="invert" onclick="darkmodeFunction()" src="{% static 'photo_app/img/moon.png' %}" >
+              </div>
+              <button class="nav-toggle">
+                  <i class="fas fa-bars"></i>
+              </button>
+          </div>
+          <!-- links -->
+          <ul class="links">
+              <li>
+              <a href="{% url 'index' %}#about">About Me</a>
+              </li>
+              <li>
+              <a href="{% url 'services' %}">Booking</a>
+              </li>
+              <li>
+              <a href="{% url 'index' %}#portfolio">Portfolio</a>
+              </li>
+              <li>
+                <a href="{% url 'index' %}#contact">Contact</a>
+              </li>
+              <li>
+                <a href="{% url 'index' %}#reviews">Reviews</a>
+              </li>
+              <li>
+                <a href="{% url 'index' %}#recent-blogs">Blog</a>
+              </li>
+          </ul>
+      </div>
+  </nav>
+    {% if messages %}
+    <div class="message-container">
+        {% for message in messages %}
+            <div class="inverted message message-{{ message.tags }}">
+                <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="large-container">
+    <!-- main content -->
+    <main>
+      {% block breadcrumb %}{% endblock breadcrumb %}
+
+      {% block content %}
+        {% if seo.content %}
+            <h1>{{ seo.content.heading }}</h1>
+            <p class="intro">{{ seo.content.intro }}</p>
+            
+            {% if seo.location %}
+            <div class="location-info">
+                <p>Serving {{ seo.location.name }}, {{ seo.location.state }} and surrounding areas</p>
+            </div>
+            {% endif %}
+        {% endif %}
+      {% endblock content %}
+    </main>
+    <!-- end of main content -->
+
+    <!-- footer -->
+    <footer id = "footer" class = "py-7">
+        <div class = "footer-content">
+            <div class = "container">
+                <div class="footer-contact">
+                    <p>Contact Me: <a href="tel:+18043720677">+1 (757) 816-7566</a> | <a href="mailto:info@stephen.photography">info@stephen.photography</a></p>
+                    <p>1001 E. Byrd St.</p>
+                    <p>Richmond, Virginia 23219</p>
+                    <p>Business Hours: Mon-Sun: 9:00 AM - 8:00 PM</p> 
+                    <p>© 2025 Stephen Lawson Photography LLC</p>
+                </div> 
+                <div class="footer-links">
+                    <ul class = "flex">
+                        <li>
+                            <a href = "{% url 'privacy_policy' %}">Privacy Policy</a>
+                        </li>
+                        <li>
+                            <a href = "{% url 'terms_of_service' %}#">Terms of Service</a>
+                        </li>
+                        <li>
+                            <a href = "{% url 'accessibility' %}#">Accessibility Statement</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <a href="https://www.instagram.com/stephenlawsonphotos/" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://goo.gl/maps/ErfBr8BvmW45dv2E9" class="social-icon">
+                        <i class="fab fa-google"></i>
+                    </a>
+                    <a href="https://www.facebook.com/people/Stephen-Lawson-Photography/100095105778407/" class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://www.yelp.com/biz/stephen-lawson-photography-richmond" class="social-icon">
+                        <i class="fab fa-yelp"></i>
+                    </a>
+                    <a href = "https://www.tiktok.com/@stephenlawsonphot" class = "social-icon">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                    <a href="https://www.thumbtack.com/va/richmond/portrait-photographers/stephen-lawson-photography-llc/service/488666674624421894" class="social-icon">
+                        <i class="fa-solid fa-t"></i>
+                    </a>
+                    <a href="https://twitter.com/StephenL_Photos" class="social-icon">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="https://www.threads.net/@stephenlawsonphotos" class="social-icon"><svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#333333}</style><path d="M331.5 235.7c2.2 .9 4.2 1.9 6.3 2.8c29.2 14.1 50.6 35.2 61.8 61.4c15.7 36.5 17.2 95.8-30.3 143.2c-36.2 36.2-80.3 52.5-142.6 53h-.3c-70.2-.5-124.1-24.1-160.4-70.2c-32.3-41-48.9-98.1-49.5-169.6V256v-.2C17 184.3 33.6 127.2 65.9 86.2C102.2 40.1 156.2 16.5 226.4 16h.3c70.3 .5 124.9 24 162.3 69.9c18.4 22.7 32 50 40.6 81.7l-40.4 10.8c-7.1-25.8-17.8-47.8-32.2-65.4c-29.2-35.8-73-54.2-130.5-54.6c-57 .5-100.1 18.8-128.2 54.4C72.1 146.1 58.5 194.3 58 256c.5 61.7 14.1 109.9 40.3 143.3c28 35.6 71.2 53.9 128.2 54.4c51.4-.4 85.4-12.6 113.7-40.9c32.3-32.2 31.7-71.8 21.4-95.9c-6.1-14.2-17.1-26-31.9-34.9c-3.7 26.9-11.8 48.3-24.7 64.8c-17.1 21.8-41.4 33.6-72.7 35.3c-23.6 1.3-46.3-4.4-63.9-16c-20.8-13.8-33-34.8-34.3-59.3c-2.5-48.3 35.7-83 95.2-86.4c21.1-1.2 40.9-.3 59.2 2.8c-2.4-14.8-7.3-26.6-14.6-35.2c-10-11.7-25.6-17.7-46.2-17.8H227c-16.6 0-39 4.6-53.3 26.3l-34.4-23.6c19.2-29.1 50.3-45.1 87.8-45.1h.8c62.6 .4 99.9 39.5 103.7 107.7l-.2 .2zm-156 68.8c1.3 25.1 28.4 36.8 54.6 35.3c25.6-1.4 54.6-11.4 59.5-73.2c-13.2-2.9-27.8-4.4-43.4-4.4c-4.8 0-9.6 .1-14.4 .4c-42.9 2.4-57.2 23.2-56.2 41.8l-.1 .1z"/></svg></a>
+                    <a href="https://www.pinterest.com/stephenlawsonphotos/" class="social-icon"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- end of footer -->
+
+
+    <!-- typewriting js -->
+    <script src="{% static 'photo_app/js/typewriting.min.js' %}"></script>
+    <!-- Add jQuery (required by Owl Carousel) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Add Owl Carousel JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+    <!-- custom js -->
+    <script src="{% static 'photo_app/js/script.js' %}"></script>
+    <script>
+        $(document).ready(function(){
+          $("#reviews-carousel").owlCarousel({
+            loop: true,
+            margin: 20,
+            nav: true,
+            responsive:{
+              0:{
+                items: 1
+              },
+              600:{
+                items: 2
+              },
+              1000:{
+                items: 3
+              }
+            }
+          });
+        });
+      </script>
+  </body>
+</html>

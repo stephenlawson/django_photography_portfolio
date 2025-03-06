@@ -1,0 +1,94 @@
+{% extends 'photo_app/main.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h2>Upload Photos</h2>
+    <form id="upload-form" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <div class="form-group mb-3">
+            <label for="gallery">Select Gallery</label>
+            <select name="gallery" id="gallery" class="form-control" required>
+                <option value="">-- Select a Gallery --</option>
+                {% regroup galleries by category as category_list %}
+                {% for category in category_list %}
+                    {% if category.grouper.parent %}
+                        <optgroup label="{{ category.grouper.parent.get_name_display }} - {{ category.grouper.get_name_display }}">
+                    {% else %}
+                        <optgroup label="{{ category.grouper.get_name_display }}">
+                    {% endif %}
+                        {% for gallery in category.list %}
+                            <option value="{{ gallery.id }}">{{ gallery.name }}</option>
+                        {% endfor %}
+                    </optgroup>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group mb-3">
+            <label>Upload Images</label>
+            <input type="file" name="images" id="images" multiple accept="image/*" class="form-control" required>
+        </div>
+
+        <div id="upload-status" class="alert" style="display:none"></div>
+        
+        <div class="progress mb-3" style="display:none">
+            <div class="progress-bar" role="progressbar" style="width: 0%"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload Photos</button>
+    </form>
+</div>
+
+<script>
+document.getElementById('upload-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const form = e.target;
+    const formData = new FormData(form);
+    const gallery = document.getElementById('gallery').value;
+    const files = document.getElementById('images').files;
+    const status = document.getElementById('upload-status');
+    const progress = document.querySelector('.progress');
+    const progressBar = document.querySelector('.progress-bar');
+    
+    if (!gallery) {
+        showStatus('Please select a gallery', 'danger');
+        return;
+    }
+    
+    if (files.length === 0) {
+        showStatus('Please select files to upload', 'danger');
+        return;
+    }
+
+    progress.style.display = 'block';
+    
+    fetch('{% url "upload_photos" %}', {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': '{{ csrf_token }}'
+        }
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            showStatus('Upload completed successfully!', 'success');
+            setTimeout(() => window.location.href = '{% url "index" %}', 2000);
+        } else {
+            showStatus(data.error || 'Upload failed', 'danger');
+        }
+    })
+    .catch(error => {
+        showStatus('Error: ' + error.message, 'danger');
+    });
+});
+
+function showStatus(message, type) {
+    const status = document.getElementById('upload-status');
+    status.textContent = message;
+    status.className = `alert alert-${type}`;
+    status.style.display = 'block';
+}
+</script>
+{% endblock %}

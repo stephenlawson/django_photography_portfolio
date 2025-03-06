@@ -1,0 +1,193 @@
+<!-- code_portfolio/templates/code_portfolio/project_detail.html -->
+{% extends 'code_portfolio/base.html' %}
+{% load static %}
+{% load markdown_deux_tags %}
+{% block title %}{{ project.title }} | Stephen Lawson - Python Developer{% endblock %}
+{% block meta_description %}{{ project.description|truncatewords:30 }}{% endblock %}
+
+{% block og_title %}{{ project.title }} - Portfolio Project{% endblock %}
+{% block og_description %}{{ project.description|truncatewords:30 }}{% endblock %}
+{% block og_image %}{{ project.featured_image.url }}{% endblock %}
+
+{% block twitter_title %}{{ project.title }} - Portfolio Project{% endblock %}
+{% block twitter_description %}{{ project.description|truncatewords:30 }}{% endblock %}
+{% block twitter_image %}{{ project.featured_image.url }}{% endblock %}
+
+{% block structured_data %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "SoftwareSourceCode",
+  "name": "{{ project.title }}",
+  "description": "{{ project.description }}",
+  "dateCreated": "{{ project.date_created|date:'Y-m-d' }}",
+  "dateModified": "{{ project.date_updated|date:'Y-m-d' }}",
+  "programmingLanguage": {
+    {% for skill in project.skills.all %}
+    {% if skill.category == 'LANGUAGE' %}
+    "@type": "ComputerLanguage",
+    "name": "{{ skill.name }}"
+    {% endif %}
+    {% endfor %}
+  },
+  "codeRepository": "{{ project.github_url }}",
+  "url": "{{ request.build_absolute_uri }}",
+  "author": {
+    "@type": "Person",
+    "name": "Stephen Lawson",
+    "url": "https://code.stephen.photography"
+  }
+}
+</script>
+{% endblock %}
+
+{% block content %}
+<!-- Project Header -->
+<section class="project-header py-5 bg-dark text-white">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <nav aria-label="breadcrumb" class="mb-3">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="{% url 'code_portfolio:home' %}" class="text-white-50">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{% url 'code_portfolio:project_list' %}" class="text-white-50">Projects</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ project.title }}</li>
+                    </ol>
+                </nav>
+                <h1 class="display-5 fw-bold mb-3">{{ project.title }}</h1>
+                <p class="lead mb-4">{{ project.description }}</p>
+                <div class="project-meta mb-4">
+                    <span class="badge bg-light text-dark me-2 mb-2">
+                        <i class="far fa-calendar-alt me-1"></i> {{ project.date_created|date:"M Y" }}
+                    </span>
+                    {% for skill in project.skills.all %}
+                    <span class="badge bg-secondary me-2 mb-2">{{ skill.name }}</span>
+                    {% endfor %}
+                </div>
+                <div class="project-links">
+                    {% if project.title == 'Photography Portfolio & Booking System' and project.github_url %}
+                    <a href="{{ project.github_url }}" target="_blank" class="btn btn-outline-light me-2 mb-2">
+                        <i class="fab fa-github me-1"></i> View on GitHub
+                    </a>
+                    {% elif project.github_url %}
+                    <span class="btn btn-outline-secondary me-2 mb-2 disabled">
+                        <i class="fas fa-lock me-1"></i> Confidential Project
+                    </span>
+                    {% endif %}
+                    
+                    {% if project.live_url %}
+                    <a href="{{ project.live_url }}" target="_blank" class="btn btn-primary me-2 mb-2">
+                        <i class="fas fa-external-link-alt me-1"></i> Live Demo
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4 mt-4 mt-md-0 text-center">
+                <img src="{{ project.featured_image.url }}" alt="{{ project.title }}" class="img-fluid rounded shadow-lg">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Project Content -->
+<section class="project-content py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <!-- Main Content -->
+                <div class="content-wrapper bg-white p-4 rounded shadow-sm">
+                    <div class="rich-text-content">
+                        {{ project.content|markdown }}
+                    </div>
+                </div>
+                
+                <!-- Project Gallery -->
+                {% if project.images.exists %}
+                <div class="project-gallery mt-5">
+                    <h3 class="mb-4">Project Gallery</h3>
+                    <div class="row">
+                        {% for image in project.images.all %}
+                        <div class="col-md-6 col-lg-4 mb-4">
+                            <a href="{{ image.image.url }}" class="gallery-item" data-lightbox="project-gallery" data-title="{{ image.caption }}">
+                                <img src="{{ image.image.url }}" alt="{{ image.caption }}" class="img-fluid rounded shadow-sm">
+                                {% if image.caption %}
+                                <div class="image-caption mt-2">{{ image.caption }}</div>
+                                {% endif %}
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="col-lg-4 mt-5 mt-lg-0">
+                <!-- Project Skills Sidebar -->
+                <div class="sidebar-widget bg-white p-4 rounded shadow-sm mb-4">
+                    <h3 class="h5 mb-3">Technologies Used</h3>
+                    <ul class="list-group list-group-flush">
+                        {% for skill in project.skills.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            {{ skill.name }}
+                            <span class="badge rounded-pill bg-primary">{{ skill.category }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                
+                <!-- Related Projects -->
+                {% if related_projects %}
+                <div class="sidebar-widget bg-white p-4 rounded shadow-sm">
+                    <h3 class="h5 mb-3">Related Projects</h3>
+                    {% for related in related_projects %}
+                    <div class="related-project mb-3 {% if not forloop.last %}border-bottom pb-3{% endif %}">
+                        <div class="d-flex">
+                            <img src="{{ related.featured_image.url }}" alt="{{ related.title }}" class="img-fluid rounded me-3" style="width: 80px; height: 60px; object-fit: cover;">
+                            <div>
+                                <h4 class="h6 mb-1">{{ related.title }}</h4>
+                                <div class="small text-muted mb-2">
+                                    {% for skill in related.skills.all|slice:":2" %}
+                                    <span class="badge bg-light text-dark me-1">{{ skill.name }}</span>
+                                    {% endfor %}
+                                </div>
+                                <a href="{% url 'code_portfolio:project_detail' related.slug %}" class="btn btn-sm btn-outline-primary">View Project</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action -->
+<section class="cta-section bg-light py-5 text-center">
+    <div class="container">
+        <h2 class="h3 mb-3">Interested in working together?</h2>
+        <p class="mb-4">I'm always open to discussing new projects or opportunities.</p>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="{% url 'code_portfolio:contact' %}" class="btn btn-primary">Contact Me</a>
+            <a href="{% url 'code_portfolio:project_list' %}" class="btn btn-outline-secondary">More Projects</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Lightbox JS for project gallery -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/js/lightbox.min.js"></script>
+<script>
+    lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true,
+        'albumLabel': "Image %1 of %2"
+    });
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<!-- Lightbox CSS for project gallery -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.3/css/lightbox.min.css" rel="stylesheet">
+{% endblock %}

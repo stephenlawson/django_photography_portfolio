@@ -1,0 +1,381 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+{% block content %}
+<header id = "header" class = "vh-100 flex inverted">
+    <div class = "container">
+        <div class = "header-content">
+            <h1>I'm   a <br><span class = "typewrite" data-loop = "yes" data-speed = "100" data-delay = "2000" data-words = '["wedding", "portrait", "event"]'></span> <br>photographer</h1>
+            <h3>Stephen Lawson</h3>
+
+            <button class="book-now-btn"><a class="book-now-btn" href="{% url 'services' %}">Book Your Photo Session</a></button>
+
+            <ul class = "social-links">
+                <li>
+                    <a href = "https://www.instagram.com/stephenlawsonphotos/" class = "flex">
+                        <i class = "fab fa-instagram"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://goo.gl/maps/ErfBr8BvmW45dv2E9" class = "flex">
+                        <i class="fab fa-google"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://www.facebook.com/people/Stephen-Lawson-Photography/100095105778407/" class = "flex">
+                        <i class = "fab fa-facebook-f"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://www.yelp.com/biz/stephen-lawson-photography-richmond" class = "flex">
+                        <i class="fab fa-yelp"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://www.tiktok.com/@stephenlawsonphot" class = "flex">
+                        <i class="fab fa-tiktok"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://www.thumbtack.com/va/richmond/portrait-photographers/stephen-lawson-photography-llc/service/488666674624421894" class = "flex">
+                        <i class="fa-solid fa-t"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://twitter.com/StephenL_Photos" class = "flex">
+                        <i class = "fab fa-twitter"></i>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://www.threads.net/@stephenlawsonphotos" class = "flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><style>svg{fill:#333333}</style><path d="M331.5 235.7c2.2 .9 4.2 1.9 6.3 2.8c29.2 14.1 50.6 35.2 61.8 61.4c15.7 36.5 17.2 95.8-30.3 143.2c-36.2 36.2-80.3 52.5-142.6 53h-.3c-70.2-.5-124.1-24.1-160.4-70.2c-32.3-41-48.9-98.1-49.5-169.6V256v-.2C17 184.3 33.6 127.2 65.9 86.2C102.2 40.1 156.2 16.5 226.4 16h.3c70.3 .5 124.9 24 162.3 69.9c18.4 22.7 32 50 40.6 81.7l-40.4 10.8c-7.1-25.8-17.8-47.8-32.2-65.4c-29.2-35.8-73-54.2-130.5-54.6c-57 .5-100.1 18.8-128.2 54.4C72.1 146.1 58.5 194.3 58 256c.5 61.7 14.1 109.9 40.3 143.3c28 35.6 71.2 53.9 128.2 54.4c51.4-.4 85.4-12.6 113.7-40.9c32.3-32.2 31.7-71.8 21.4-95.9c-6.1-14.2-17.1-26-31.9-34.9c-3.7 26.9-11.8 48.3-24.7 64.8c-17.1 21.8-41.4 33.6-72.7 35.3c-23.6 1.3-46.3-4.4-63.9-16c-20.8-13.8-33-34.8-34.3-59.3c-2.5-48.3 35.7-83 95.2-86.4c21.1-1.2 40.9-.3 59.2 2.8c-2.4-14.8-7.3-26.6-14.6-35.2c-10-11.7-25.6-17.7-46.2-17.8H227c-16.6 0-39 4.6-53.3 26.3l-34.4-23.6c19.2-29.1 50.3-45.1 87.8-45.1h.8c62.6 .4 99.9 39.5 103.7 107.7l-.2 .2zm-156 68.8c1.3 25.1 28.4 36.8 54.6 35.3c25.6-1.4 54.6-11.4 59.5-73.2c-13.2-2.9-27.8-4.4-43.4-4.4c-4.8 0-9.6 .1-14.4 .4c-42.9 2.4-57.2 23.2-56.2 41.8l-.1 .1z"/></svg>
+                    </a>
+                </li>
+                <li>
+                    <a href = "https://www.pinterest.com/stephenlawsonphotos/" class = "flex">
+                        <i class = "fab fa-pinterest"></i>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+<!-- end of header -->
+<!-- about section -->
+<section id = "about" class = "about py-7">
+    <div class = "container">
+        <div class = "about-content grid">
+            <div class = "about-left">
+                <div class="blurred-img blurred-img-about">
+                    <img class="inverted" src = "{% static 'photo_app/img/about-pic.jpg' %}" alt = "about-pic">
+                </div>
+            </div>
+            <div class = "about-right">
+                <div class = "title">
+                    <h2>About Me</h2>
+                </div>
+                <p class = "lead">
+                    {{ page_content.page_content }}
+                </p>
+                <a href = "#work" class = "btn-down">
+                    <i class = "fas fa-chevron-down"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end of about section -->
+
+<!-- work section -->
+<section  id = "work" class = "vh-100 flex py-7 inverted">
+    <div class = "container">
+        <div class = "work-content">
+            <div class = "title">
+                <h2>How do I operate?</h2>
+            </div>
+            <ul class = "work-top grid">
+                <li class = "lead"><i class = "fas fa-dot-circle"></i> I shoot with professional Sony Alpha digital cameras and use Sigma, Rokinon, Viltrox, and Tamron lenses. I also shoot 35mm and medium format film!</li>
+                <li class = "lead"><i class = "fas fa-dot-circle"></i> Your raw files will be stored stored safely on two different storage media and with a secondary offsite backup.</li>
+                <li class = "lead"><i class = "fas fa-dot-circle"></i> My business is registered in the state of Virginia and insured.</li>
+                <li class = "lead"><i class = "fas fa-dot-circle"></i> I always have back-up equipment at hand and on location.</li>
+            </ul>
+
+            <div class = "work-bottom grid">
+                <div>
+                    <span class = "icon"><img src = "{% static 'photo_app/img/portrait-icon.png' %}"></span>
+                    <h3>Portrait</h3>
+                </div>
+                <div>
+                    <span class = "icon"><img src = "{% static 'photo_app/img/graduation-icon.png' %}"></span>
+                    <h3>Graduation</h3>
+                </div>
+                <div>
+                    <span class = "icon"><img src = "{% static 'photo_app/img/engagement-icon.png' %}"></span>
+                    <h3>Engagement</h3>
+                </div>
+                <div>
+                    <span class = "icon"><img src = "{% static 'photo_app/img/wedding-icon.png' %}"></span>
+                    <h3>Wedding</h3>
+                </div>
+            </div>
+            <div id="ff-logo2">
+                <img class="inverted" loading="lazy" id="ff-log2-img" src="{% static 'photo_app/img/ff-logo2.png' %}" alt="ff-logo2">
+            </div>
+            <a href = "#portfolio" class = "btn-down btn-down-white">
+                <i class = "fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </div>
+</section>
+<!-- end of work section -->
+
+<!-- booking section -->
+<!-- <section id="booking" class = "py-7">
+    <div class = "container">
+        <div class="booking-content">
+            <div class = "title">
+                <h2>booking</h2>
+                <a href = "#portfolio" class = "btn-down btn-down-white">
+                    <i class = "fas fa-chevron-down"></i>
+                </a>
+            </div>
+            <script src='https://square.site/appointments/buyer/widget/ue7wdul065wypq/LYM4DW6BXAXAY.js'></script>
+        <a href = "#portfolio" class = "btn-down">
+            <i class = "fas fa-chevron-down"></i>
+        </a>
+        </div>  
+    </div>
+</section> -->
+<!-- end of booking section-->
+
+<!-- portfolio section -->
+<section id = "portfolio" class = "vh-100 py-7">
+    <div class = "container">
+        <div class = "portfolio-content">
+            <div class = "title">
+                <h2>my latest sessions</h2>
+                <a href = "#contact" class = "btn-down">
+                    <i class = "fas fa-chevron-down"></i>
+                </a>
+            </div>
+
+            <div class="index-portfolio-section">
+                <div class="portfolio-categories">
+                    {% for category in categories %}
+                    <a href="{% url 'gallery_list' category.name %}" class="category-card">
+                        <div class="category-image">
+                            {% if category.category_image %}
+                                <img class="inverted" loading="lazy" src="{{ category.category_image.url }}" alt="{{ category.get_name_display }}">
+                            {% else %}
+                                <img class="inverted" loading="lazy" src="{% static 'photo_app/img/default-cover.jpg' %}" alt="{{ category.get_name_display }}">
+                            {% endif %}
+                        </div>
+                        <div class="category-content">
+                            <h2 class="category-title">{{ category.get_name_display }}</h2>
+                            <p class="category-description">{{ category.intro_text }}</p>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end of portfolio section -->
+
+<!-- contact section -->
+<section id = "contact" class = "py-7">
+    <div class = "container">
+        <div class = "contact-content flex">
+            <div class = "contact-left">
+                <div class="title">
+                    <h2>get in contact with me</h2>
+                    <a href = "#insta" class = "btn-down">
+                        <i class = "fas fa-chevron-down"></i>
+                    </a>
+                </div>
+                <form id="myForm" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <button>
+                        <div class="button_base b03_skewed_slide_in">
+                            <div>Submit</div>
+                            <div></div>
+                            <div>Submit</div>
+                        </div>
+                    </button>
+                    
+                </form>
+            </div>
+
+            <div class = "contact-right">
+                <div class="blurred-img blurred-img-contact">
+                    <img class="contact inverted" loading="lazy" src = "{% static 'photo_app/img/contact-pic.jpg' %}" alt = "contact image">
+                </div>
+                <br/>
+                <br/>
+                <p class = "lead"><i class = "fas fa-phone-alt"></i> +1 757 816 7566</p>
+                <p class = "lead"><i class = "fas fa-envelope"></i> info@stephen.photography</p>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end of contact section -->
+
+<!-- instagram section -->
+<section id = "insta" class = "py-7 inverted">
+    <div class = "container">
+        <div class = "insta-content">
+            <div class = "title">
+                <h2>instagram</h2>
+                <a href = "#reviews" class = "btn-down btn-down-white">
+                    <i class = "fas fa-chevron-down"></i>
+                </a>
+            </div>
+            <div class = "insta-grid grid">
+                {% if insta_posts %}
+                    {% for post in insta_posts %}
+                    <div>
+                        <a href = "{{ post.permalink }}" target="_blank">
+                            <img class="" src="{{ post.thumbnail.url }}">
+                        </a>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                <div class = "title">
+                    <h3>Instagram photos unavailable</h2>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end of instagram section -->
+<!-- reviews section -->
+<section id="reviews" class="py-7">
+    <div class="container">
+        <div class="title review-title">
+            <h2>what clients are saying</h2>
+            <a href="#footer" class="btn-down">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+        <div class="reviews-content"></div>
+            <div id="reviews-carousel" class="owl-carousel">
+                {% if reviews %}
+                    {% for review in reviews %}
+                        <div class="review">
+                            <div class="review-details">
+                                <div class="review-author">
+                                    <img class="review-thumbnail inverted" src="{{ review.thumbnail.url }}" alt="{{ review.author_name }}">
+                                    <span class="author-name">{{ review.author_name }}</span>
+                                </div>
+                                <div class="review-rating">
+                                    {% for star in review.stars %}
+                                        <span class="star">&#9733;</span>
+                                    {% endfor %}
+                                </div>
+                                <p class="review-text">
+                                    "{{ review.review_text|slice:":600" }}{% if review.review_text|length > 600 %}...{% endif %}"
+                                </p>
+                                <p class="review-date">{{ review.review_date|date:"F d, Y" }}</p>
+                                <a href="{{ review.post_url }}" class="post-url" target="_blank">
+                                    Read More
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <div class="title">
+                        <h3>No reviews available</h3>
+                    </div>
+                {% endif %}  
+            </div>
+        </div>
+    </div>
+    {% if reviews %}
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "@id": "https://stephen.photography",
+            "name": "Stephen Lawson Photography",
+            "image": "{% static 'photo_app/img/stephenlawsonphotographyfavicon.png' %}",
+            "url": "https://stephen.photography",
+            "telephone": "+1-757-816-7566",
+            "email": "info@stephen.photography",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "1001 E. Byrd St.",
+                "addressLocality": "Richmond",
+                "addressRegion": "VA",
+                "postalCode": "23219",
+                "addressCountry": "US"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": 37.5331,
+                "longitude": -77.4287
+            },
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": {{ average_rating }},
+                "ratingCount": {{ total_reviews }},
+                "reviewCount": {{ total_reviews }},
+                "bestRating": 5,
+                "worstRating": 1
+            },
+            "review": [
+                {% for review in reviews %}
+                {
+                    "@type": "Review",
+                    "reviewRating": {
+                        "@type": "Rating",
+                        "ratingValue": {{ review.rating }},
+                        "bestRating": 5,
+                        "worstRating": 1
+                    },
+                    "author": {
+                        "@type": "Person",
+                        "name": "{{ review.author_name }}"
+                    },
+                    "reviewBody": "{{ review.review_text }}",
+                    "datePublished": "{{ review.review_date|date:'Y-m-d' }}"
+                }{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            ]
+        }
+        </script>
+    {% endif %}
+</section>
+<!-- end of reviews section -->
+<!-- blog section -->
+<section id="recent-blogs" class="py-7">
+    <div class="container">
+        <div class="title">
+            <h2>recent articles</h2>
+            <a href="#contact" class="btn-down">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+        
+        <div class="blog-preview-grid">
+            {% for photo_blog in photo_blogs|slice:":3" %}
+                <a href="{% url 'photo_blog:photo_blog' slug=photo_blog.slug %}" class="category-card">
+                    <div class="category-image">
+                        <img class="inverted" loading="lazy" src="{{ photo_blog.image.url }}" alt="{{ photo_blog.title }}">
+                    </div>
+                    <div class="category-content">
+                        <h2 class="category-title">{{ photo_blog.title|truncatechars:50 }}</h2>
+                        <p class="category-description">{{ photo_blog.sub_title }}</p>
+                    </div>
+                </a>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center" style="margin-top: 2rem;">
+            <a href="{% url 'photo_blog:photo_blogs' %}" class="book-now-btn">View All Articles</a>
+        </div>
+    </div>
+</section>
+<!-- end of blog section -->
+{% endblock content %}

@@ -1,0 +1,15 @@
+{% extends 'photo_app/main.html' %}
+{% load static %}
+{% block content %}
+    <div class="login-container vh-100 flex py-7 inverted">
+        <div class="login-modal">
+          <h2>Login</h2>
+          <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <input type="text" name="username" placeholder="Username">
+            <input type="password" name="password" placeholder="Password">
+            <button class="login-button"  type="submit">Login</button>
+          </form>
+        </div>
+    </div>
+{% endblock content %}
